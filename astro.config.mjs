@@ -5,7 +5,8 @@ import vercel from "@astrojs/vercel";
 import { storyblok } from "@storyblok/astro";
 
 // Determine output mode based on IS_PREVIEW env variable
-const isPreview = process.env.IS_PREVIEW === 'true' || import.meta.env.IS_PREVIEW === 'true';
+// Note: Vercel parses IS_PREVIEW=true as boolean, not string
+const isPreview = process.env.IS_PREVIEW === true || process.env.IS_PREVIEW === 'true' || import.meta.env.IS_PREVIEW === true || import.meta.env.IS_PREVIEW === 'true';
 
 // DEBUG: Log environment detection
 console.log("[DEBUG] IS_PREVIEW check:");
