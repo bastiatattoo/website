@@ -39,13 +39,15 @@ console.log("[DEBUG] slug:", slug);
 
 if (isPreview) {
   // SSR mode: fetch on-demand for Storyblok visual editor
+  const storySlug = slug || "home";
+  console.log("[DEBUG] Fetching from Storyblok API for:", storySlug);
   try {
-    console.log("[DEBUG] Fetching from Storyblok API for:", slug || "home");
-    const { data } = await storyblokApi.get(`cdn/stories/${slug || "home"}`, {
+    const { data } = await storyblokApi.get(`cdn/stories/${storySlug}`, {
       version: "draft",
       token: import.meta.env.STORYBLOK_TOKEN,
       resolve_links: "url"
     });
+    console.log("[DEBUG] API Response data:", JSON.stringify(data, null, 2));
     story = data.story;
     console.log("[DEBUG] Story fetched successfully:", story ? story.name : "null");
   } catch (error) {
