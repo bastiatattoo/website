@@ -8,6 +8,8 @@ const storyblokApi = useStoryblokApi();
 const { slug } = Astro.params;
 const isPreview = import.meta.env.IS_PREVIEW === "true";
 
+console.log(isPreview);
+
 // For SSG: Generate static paths for all stories
 export async function getStaticPaths() {
   const sbApi = useStoryblokApi();
@@ -34,6 +36,8 @@ let story;
 
 // DEBUG: Log environment info
 console.log("[DEBUG] IS_PREVIEW:", import.meta.env.IS_PREVIEW);
+console.log("[DEBUG] IS_PREVIEW type:", typeof import.meta.env.IS_PREVIEW);
+console.log("[DEBUG] IS_PREVIEW === 'true':", import.meta.env.IS_PREVIEW === "true");
 console.log("[DEBUG] isPreview variable:", isPreview);
 console.log("[DEBUG] STORYBLOK_TOKEN present:", !!import.meta.env.STORYBLOK_TOKEN);
 console.log("[DEBUG] slug:", slug);
