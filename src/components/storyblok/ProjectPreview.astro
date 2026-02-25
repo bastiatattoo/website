@@ -1,0 +1,125 @@
+---
+// Fundations
+import Text from "../fundations/elements/Text.astro";
+import Kicker from "../fundations/elements/Kicker.astro";
+import Button from "../fundations/elements/Button.astro";
+import RollingLink from "../fundations/elements/RollingLink.astro";
+import Wrapper from "../fundations/containers/Wrapper.astro";
+// Components
+import ProjectCard from "../projects/ProjectCard.astro";
+// Icons
+import ArrowLeft from "../fundations/icons/ArrowLeft.astro";
+import ArrowRight from "../fundations/icons/ArrowRight.astro";
+// Content
+
+const { blok } = Astro.props;
+const projects = blok.projects;
+---
+
+<section class="overflow-hidden">
+  <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-12">
+    <div>
+      <Kicker copy={blok.tagline} />
+      <Text
+        tag="p"
+        variant="displayLG"
+        class="text-base-900 mt-6 font-medium tracking-tight lg:text-balance">
+        {blok.title}
+      </Text>
+      <RollingLink
+        href={blok.linkUrl.story ? `/${blok.linkUrl.story.full_slug}` : blok.linkUrl.url}
+        variant="light"
+        hoverText={blok.linkHoverText}
+        initialText={blok.linkInitialText}
+      />
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 items-start gap-x-4 gap-y-4 lg:grid-cols-12">
+      <div
+        class="order-last flex h-full flex-col justify-between rounded-xl bg-white p-4 lg:order-first lg:col-span-3 xl:px-4 xl:py-8">
+        <div>
+          <Text
+            tag="h3"
+            variant="textXLG"
+            class="text-base-900 mt-8 font-medium text-balance"
+            id="project-title">
+            {blok.projects[0].title}
+          </Text>
+          <Text tag="p" variant="textSM" class="text-base-600 mt-1" id="project-description">
+            {blok.projects[0].description}
+          </Text>
+        </div>
+        <div class="mt-8 flex gap-2">
+          <Button
+            size="xs"
+            variant="muted"
+            iconOnly
+            aria-label="Précédent"
+            id="keen-slider-previous">
+            <ArrowLeft size="base" slot="icon" />
+          </Button>
+          <Button size="xs" variant="muted" iconOnly aria-label="Suivant" id="keen-slider-next">
+            <ArrowRight size="base" slot="icon" />
+          </Button>
+        </div>
+      </div>
+      <div class="lg:col-span-9">
+        <div id="keen-slider" class="keen-slider overflow-hidden rounded-xl">
+          {projects.map((project) => <ProjectCard post={project} />)}
+        </div>
+      </div>
+    </div>
+  </Wrapper>
+</section>
+
+<script define:vars={{ projects }}>
+  window.projects = projects;
+</script>
+
+<script>
+  import "keen-slider/keen-slider.min.css";
+  import KeenSlider from "keen-slider";
+  const keenSlider = new KeenSlider(
+    "#keen-slider",
+    {
+      loop: true,
+      slides: {
+        origin: "auto",
+        perView: 1.25,
+        spacing: 8
+      },
+      breakpoints: {
+        "(min-width: 1024px)": {
+          slides: {
+            origin: "auto",
+            perView: 1.3,
+            spacing: 16
+          }
+        }
+      }
+    },
+    []
+  );
+  const keenSliderPrevious = document.getElementById("keen-slider-previous");
+  const keenSliderNext = document.getElementById("keen-slider-next");
+  keenSliderPrevious.addEventListener("click", () => keenSlider.prev());
+  keenSliderNext.addEventListener("click", () => keenSlider.next());
+
+  const titleEl = document.getElementById("project-title");
+  const descriptionEl = document.getElementById("project-description");
+
+  function updateInfo(slide) {
+    const project = window.projects[slide];
+    if (project) {
+      titleEl.textContent = project.title;
+      descriptionEl.textContent = project.description;
+    }
+  }
+
+  keenSlider.on("slideChanged", (s) => {
+    updateInfo(s.track.details.abs % window.projects.length);
+  });
+
+  // Initialize with first slide
+  updateInfo(0);
+</script>

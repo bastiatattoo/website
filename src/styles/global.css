@@ -1,0 +1,282 @@
+/* Inter Font from RSMS - Local Installation */
+/* Variable font for modern browsers */
+@font-face {
+  font-family: InterVariable;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/InterVariable.woff2?v=4.1") format("woff2");
+}
+
+@font-face {
+  font-family: InterVariable;
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/InterVariable-Italic.woff2?v=4.1") format("woff2");
+}
+
+/* Static fonts */
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Inter-Regular.woff2?v=4.1") format("woff2");
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Inter-Italic.woff2?v=4.1") format("woff2");
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/Inter-Medium.woff2?v=4.1") format("woff2");
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/Inter-SemiBold.woff2?v=4.1") format("woff2");
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/Inter-Bold.woff2?v=4.1") format("woff2");
+}
+
+@import "tailwindcss";
+
+/* Tailwind v4 Plugins */
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+@plugin "tailwindcss-animate";
+@plugin "tailwind-scrollbar-hide";
+
+@theme {
+  /* Typography */
+  --font-sans: "Inter", sans-serif;
+  /* Colors */
+  /* Base */
+  --color-base-50: oklch(0.985 0 0);
+  --color-base-100: oklch(0.97 0 0);
+  --color-base-200: oklch(0.922 0 0);
+  --color-base-300: oklch(0.87 0 0);
+  --color-base-400: oklch(0.708 0 0);
+  --color-base-500: oklch(0.556 0 0);
+  --color-base-600: oklch(0.439 0 0);
+  --color-base-700: oklch(0.371 0 0);
+  --color-base-800: oklch(0.269 0 0);
+  --color-base-900: oklch(0.205 0 0);
+  --color-base-950: oklch(0.145 0 0);
+  /* Keyframes */
+  --animate-marquee: marquee 92s linear infinite;
+  --animate-rightMarquee: rightMarquee 300s linear infinite;
+  --animate-slowMarquee: marquee 300s linear infinite;
+  --animate-bouncingMarquee: bouncingMarquee 6s ease-in-out infinite;
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes rightMarquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  @keyframes bouncingMarquee {
+    0% {
+      transform: translateX(0%);
+    }
+    33% {
+      transform: translateX(100%);
+    }
+    66% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+}
+
+@layer base {
+  :root {
+    font-family: Inter, sans-serif;
+    font-feature-settings:
+      "liga" 1,
+      "calt" 1,
+      /* Contextual Alternates */ "dlig" 1,
+      /* Discretionary Ligatures */ "ss07" 1,
+      /* fSquare punctuation */ "ss08" 1,
+      /* Square quotes */ "zero" 1,
+      /* Slashed zero */ "tnum" 1,
+      /* Tabular numbers */ "cv03" 1,
+      /* Open six */ "cv04" 1,
+      /* Open nine */ "cv01" 1,
+      /* Alternate one */ "cv09",
+      /* Flat-top three */ "cv02" 1; /* Open 4 */
+  }
+  @supports (font-variation-settings: normal) {
+    :root {
+      font-family: InterVariable, sans-serif;
+    }
+  }
+  .pause-on-hover:hover {
+    animation-play-state: paused;
+  }
+  .keen-slider__slide {
+    overflow: visible;
+  }
+
+  html {
+    @apply scroll-smooth;
+    scrollbar-gutter: stable;
+    font-family: "Outfit", system-ui, sans-serif;
+  }
+
+  /* Prevent scrolling while maintaining scrollbar space */
+  html.is--loading {
+    overflow: hidden;
+  }
+
+  body {
+    @apply bg-white text-gray-900 antialiased;
+  }
+
+  body {
+    font-size: var(--size-font);
+  }
+}
+
+@layer components {
+  /* Custom component classes */
+}
+
+@layer utilities {
+  /* Custom utility classes */
+  .display6XL {
+    @apply text-4xl sm:text-7xl md:text-9xl lg:text-[12rem];
+  }
+  .display5XL {
+    @apply text-4xl sm:text-7xl md:text-8xl lg:text-[10rem];
+  }
+  .display4XL {
+    @apply text-4xl sm:text-7xl md:text-8xl lg:text-9xl;
+  }
+  .display3XL {
+    @apply text-5xl sm:text-6xl md:text-7xl lg:text-8xl;
+  }
+  .display2XL {
+    @apply text-5xl sm:text-5xl md:text-6xl lg:text-7xl;
+  }
+  .displayXL {
+    @apply text-4xl sm:text-4xl md:text-5xl lg:text-6xl;
+  }
+  .displayLG {
+    @apply text-3xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+  .displayMD {
+    @apply text-2xl sm:text-2xl md:text-3xl lg:text-4xl;
+  }
+  .displaySM {
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl;
+  }
+  .displayXS {
+    @apply text-base sm:text-lg md:text-xl lg:text-2xl;
+  }
+  .textXL {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+  .textLG {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+  .textBase {
+    @apply text-base;
+  }
+  .textSM {
+    @apply text-sm;
+  }
+  .textXS {
+    @apply text-xs;
+  }
+}
+
+/* Lenis recommended styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ------------------------- Scaling System by Osmo [https://osmo.supply/] ------------------------- */
+
+/* Desktop */
+:root {
+  --size-unit: 16; /* body font-size in design - no px */
+  --size-container-ideal: 1440; /* screen-size in design - no px */
+  --size-container-min: 992px;
+  --size-container-max: 1920px;
+  --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
+  --size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
+}
+
+/* Tablet */
+@media screen and (max-width: 991px) {
+  :root {
+    --size-container-ideal: 834; /* screen-size in design - no px */
+    --size-container-min: 768px;
+    --size-container-max: 991px;
+  }
+}
+
+/* Mobile Landscape */
+@media screen and (max-width: 767px) {
+  :root {
+    --size-container-ideal: 550; /* screen-size in design - no px */
+    --size-container-min: 480px;
+    --size-container-max: 767px;
+  }
+}
+
+/* Mobile Portrait */
+@media screen and (max-width: 479px) {
+  :root {
+    --size-container-ideal: 390; /* screen-size in design - no px */
+    --size-container-min: 320px;
+    --size-container-max: 479px;
+  }
+}

@@ -1,0 +1,85 @@
+---
+import Head from "./Head.astro";
+import SkipLink from "./SkipLink.astro";
+import Navigation from "./Navigation.astro";
+import "../styles/global.css";
+
+interface Props {
+  seo?: object;
+}
+
+const { seo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <Head seo={seo} />
+  </head>
+  <body class="bg-gray-50 text-gray-900 antialiased">
+    <SkipLink />
+    <Navigation />
+
+    <main id="main-content">
+      <slot />
+      <div class="min-h-[300vh]" < main>
+        <footer class="bg-gray-900 py-12 text-white">
+          <div class="container mx-auto px-4">
+            <p>&copy; {new Date().getFullYear()} My Website. All rights reserved.</p>
+          </div>
+        </footer>
+
+        <script>
+          import Lenis from "lenis";
+          import { gsap } from "gsap";
+          import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+          // Initialize Lenis
+          const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: "vertical",
+            gestureOrientation: "vertical",
+            smoothWheel: true,
+            wheelMultiplier: 1
+          });
+
+          // Expose Lenis globally for other components
+          (window as any).lenis = lenis;
+
+          // Sync Lenis with ScrollTrigger
+          lenis.on("scroll", ScrollTrigger.update);
+          gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+          });
+          gsap.ticker.lagSmoothing(0);
+
+          // Global animation configurations
+          ScrollTrigger.config({
+            ignoreMobileResize: true
+          });
+
+          // Example: Fade in elements with data-animate attribute
+          const animatedElements = document.querySelectorAll("[data-animate]");
+          animatedElements.forEach((el) => {
+            gsap.fromTo(
+              el,
+              { opacity: 0, y: 50 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: el,
+                  start: "top 80%",
+                  toggleActions: "play none none reverse"
+                }
+              }
+            );
+          });
+        </script>
+      </div>
+    </main>
+  </body>
+</html>

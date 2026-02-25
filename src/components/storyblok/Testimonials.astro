@@ -1,0 +1,108 @@
+---
+// Astro
+import { Image } from "astro:assets";
+// Fundations
+import Text from "../fundations/elements/Text.astro";
+import Wrapper from "../fundations/containers/Wrapper.astro";
+import Button from "../fundations/elements/Button.astro";
+// Icons
+import ArrowLeft from "../fundations/icons/ArrowLeft.astro";
+import ArrowRight from "../fundations/icons/ArrowRight.astro";
+
+const { blok } = Astro.props;
+console.log(blok);
+---
+
+<section class="overflow-hidden">
+  <Wrapper variant="paddingless" class="py-12">
+    <div class="grid grid-cols-1 items-start gap-4 gap-y-4 lg:grid-cols-3 xl:ml-8">
+      <div
+        class="order-last flex max-w-screen flex-col justify-between p-4 lg:order-first lg:rounded-2xl lg:bg-white xl:p-8">
+        <div>
+          <Text tag="h2" variant="textXL" class="text-base-900 mt-4 font-medium text-balance">
+            {blok.title}
+          </Text>
+        </div>
+        <div class="mt-8 flex items-center gap-4">
+          <Button
+            size="sm"
+            variant="muted"
+            iconOnly
+            aria-label="Précédent"
+            id="testimonials-previous">
+            <ArrowLeft size="base" slot="icon" />
+          </Button>
+          <Button size="sm" variant="muted" iconOnly aria-label="Suivant" id="testimonials-next">
+            <ArrowRight size="base" slot="icon" />
+          </Button>
+        </div>
+      </div>
+      <div id="testimonials-slider" class="keen-slider h-full pl-4 lg:col-span-2 lg:pl-0">
+        {
+          blok.testimonials.map((testimonial) => (
+            <div class="keen-slider__slide flex h-full flex-col justify-between overflow-hidden rounded-2xl bg-white p-8">
+              <blockquote>
+                <span aria-hidden="true" class="text-9xl italic">
+                  "
+                </span>
+                <Text
+                  tag="p"
+                  variant="displayMD"
+                  class="text-base-900 font-medium tracking-tight italic">
+                  "{testimonial.quote}"
+                </Text>
+              </blockquote>
+              <div class="mt-12 flex items-center gap-2 lg:mt-24">
+                {testimonial.avatar.filename && (
+                  <Image
+                    src={testimonial.avatar.filename}
+                    alt={`${testimonial.author} avatar`}
+                    class="size-12 rounded-full object-cover"
+                  />
+                )}
+                <div>
+                  <Text tag="p" variant="textLG" class="text-base-900 font-medium">
+                    {testimonial.author}
+                  </Text>
+                  <Text tag="p" variant="textSM" class="text-base-600">
+                    {testimonial.description}
+                  </Text>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Wrapper>
+</section>
+
+<script>
+  import "keen-slider/keen-slider.min.css";
+  import KeenSlider from "keen-slider";
+  const keenSlider = new KeenSlider(
+    "#testimonials-slider",
+    {
+      loop: true,
+      slides: {
+        origin: "auto",
+        perView: 1,
+        spacing: 8
+      },
+      breakpoints: {
+        "(min-width: 1024px)": {
+          slides: {
+            origin: "auto",
+            perView: 1.5,
+            spacing: 16
+          }
+        }
+      }
+    },
+    []
+  );
+  const keenSliderPrevious = document.getElementById("testimonials-previous");
+  const keenSliderNext = document.getElementById("testimonials-next");
+  keenSliderPrevious.addEventListener("click", () => keenSlider.prev());
+  keenSliderNext.addEventListener("click", () => keenSlider.next());
+</script>
