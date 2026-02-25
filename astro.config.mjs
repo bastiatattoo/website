@@ -7,6 +7,12 @@ import { storyblok } from "@storyblok/astro";
 // Determine output mode based on IS_PREVIEW env variable
 const isPreview = process.env.IS_PREVIEW === 'true' || import.meta.env.IS_PREVIEW === 'true';
 
+// DEBUG: Log environment detection
+console.log("[DEBUG] IS_PREVIEW check:");
+console.log("[DEBUG] process.env.IS_PREVIEW:", process.env.IS_PREVIEW);
+console.log("[DEBUG] import.meta.env.IS_PREVIEW:", import.meta.env.IS_PREVIEW);
+console.log("[DEBUG] isPreview:", isPreview);
+
 // https://astro.build/config
 export default defineConfig({
   // Use SSR (server) for preview mode, static for production

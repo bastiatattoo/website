@@ -32,14 +32,25 @@ export async function getStaticPaths() {
 
 let story;
 
+// DEBUG: Log environment info
+console.log("[DEBUG] IS_PREVIEW:", import.meta.env.IS_PREVIEW);
+console.log("[DEBUG] STORYBLOK_TOKEN present:", !!import.meta.env.STORYBLOK_TOKEN);
+console.log("[DEBUG] slug:", slug);
+
 if (isPreview) {
   // SSR mode: fetch on-demand for Storyblok visual editor
-  const { data } = await storyblokApi.get(`cdn/stories/${slug || "home"}`, {
-    version: "draft",
-    token: import.meta.env.STORYBLOK_TOKEN,
-    resolve_links: "url"
-  });
-  story = data.story;
+  try {
+    console.log("[DEBUG] Fetching from Storyblok API for:", slug || "home");
+    const { data } = await storyblokApi.get(`cdn/stories/${slug || "home"}`, {
+      version: "draft",
+      token: import.meta.env.STORYBLOK_TOKEN,
+      resolve_links: "url"
+    });
+    story = data.story;
+    console.log("[DEBUG] Story fetched successfully:", story ? story.name : "null");
+  } catch (error) {
+    console.error("[DEBUG] Storyblok API error:", error.message);
+  }
 } else {
   // SSG mode: story comes from getStaticPaths props
   story = Astro.props.story;
