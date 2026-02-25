@@ -44,7 +44,7 @@ if (isPreview) {
   // SSG mode: story comes from getStaticPaths props
   story = Astro.props.story;
 }
-
+console.log(story);
 // Guard: If story is undefined (e.g., static assets routed through), return 404
 if (!story) {
   return new Response(null, {
