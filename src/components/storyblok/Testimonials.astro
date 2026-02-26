@@ -10,14 +10,13 @@ import ArrowLeft from "../fundations/icons/ArrowLeft.astro";
 import ArrowRight from "../fundations/icons/ArrowRight.astro";
 
 const { blok } = Astro.props;
-console.log(blok);
 ---
 
 <section class="overflow-hidden">
   <Wrapper variant="paddingless" class="py-12">
     <div class="grid grid-cols-1 items-start gap-4 gap-y-4 lg:grid-cols-3 xl:ml-8">
       <div
-        class="order-last flex max-w-screen flex-col justify-between p-4 lg:order-first lg:rounded-2xl lg:bg-white xl:p-8">
+        class="order-last flex w-sm max-w-screen flex-col justify-between p-4 lg:order-first lg:rounded-2xl lg:bg-white xl:p-8">
         <div>
           <Text tag="h2" variant="textXL" class="text-base-900 mt-4 font-medium text-balance">
             {blok.title}
@@ -48,7 +47,7 @@ console.log(blok);
                 <Text
                   tag="p"
                   variant="displayMD"
-                  class="text-base-900 font-medium tracking-tight italic">
+                  class="text-base-900 line-clamp-[10] overflow-hidden font-medium tracking-tight italic">
                   "{testimonial.quote}"
                 </Text>
               </blockquote>

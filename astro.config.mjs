@@ -8,12 +8,6 @@ import { storyblok } from "@storyblok/astro";
 // Note: Vercel parses IS_PREVIEW=true as boolean, not string
 const isPreview = process.env.IS_PREVIEW === true || process.env.IS_PREVIEW === 'true' || import.meta.env.IS_PREVIEW === true || import.meta.env.IS_PREVIEW === 'true';
 
-// DEBUG: Log environment detection
-console.log("[DEBUG] IS_PREVIEW check:");
-console.log("[DEBUG] process.env.IS_PREVIEW:", process.env.IS_PREVIEW);
-console.log("[DEBUG] import.meta.env.IS_PREVIEW:", import.meta.env.IS_PREVIEW);
-console.log("[DEBUG] isPreview:", isPreview);
-
 // https://astro.build/config
 export default defineConfig({
   // Use SSR (server) for preview mode, static for production
@@ -36,6 +30,8 @@ export default defineConfig({
         detailedList: "components/storyblok/DetailedList",
         servicePreview: "components/storyblok/ServicePreview",
         testimonials: "components/storyblok/Testimonials",
+        textImage: "components/storyblok/TextImage",
+        gallery6: "components/storyblok/Gallery6"
       },
       enableFallbackComponent: true,
       customFallbackComponent: "components/storyblok/StoryblokFallback",

@@ -36,7 +36,7 @@ const projects = blok.projects;
 
     <div class="mt-12 grid grid-cols-1 items-start gap-x-4 gap-y-4 lg:grid-cols-12">
       <div
-        class="order-last flex h-full flex-col justify-between rounded-xl bg-white p-4 lg:order-first lg:col-span-3 xl:px-4 xl:py-8">
+        class="order-last flex h-full w-sm flex-col justify-between rounded-xl bg-white p-4 lg:order-first lg:col-span-3 xl:px-4 xl:py-8">
         <div>
           <Text
             tag="h3"
@@ -63,7 +63,7 @@ const projects = blok.projects;
           </Button>
         </div>
       </div>
-      <div class="lg:col-span-9">
+      <div class="lg:col-span-8 lg:col-start-5">
         <div id="keen-slider" class="keen-slider overflow-hidden rounded-xl">
           {projects.map((project) => <ProjectCard post={project} />)}
         </div>
