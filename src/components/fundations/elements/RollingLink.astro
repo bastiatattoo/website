@@ -1,31 +1,194 @@
 ---
 // Props
-const {
-  variant = 'dark',
-  href = '/projects',
-  initialText = 'Rolling Button',
-  hoverText = 'Rolling Button',
-  class: className
-} = Astro.props
-
-// Variant classes
-const variantClasses = {
-  dark: 'text-white hover:text-base-100',
-  light: 'text-base-950 hover:text-base-500'
-}
+const { href = "/projects", initialText = "Rolling Button" } = Astro.props;
 ---
 
-<a
-  href={href}
-  class:list={[
-    `group relative flex h-8  overflow-hidden mt-8 font-medium ${variantClasses[variant] || variantClasses.dark}`,
-    className
-  ]}
->
-  <span class="translate-y-0 transition group-hover:-translate-y-[150%] duration-500">
-    {initialText}
-  </span>
-  <span class="absolute translate-y-[150%] transition group-hover:translate-y-0 duration-500">
-    {hoverText}
-  </span>
-</a>
+<div class="btn-group">
+  <a href={href} class="btn-icon-link w-inline-block">
+    <div class="btn-icon-content">
+      <div class="btn-icon-content__mask">
+        <span data-button-anim-target="" class="btn-icon-content__text">{initialText}</span>
+      </div>
+      <div data-icon-size="normal" class="btn-icon-icon">
+        <div data-button-anim-target="" class="btn-icon-icon__bg"></div>
+        <div class="btn-icon-icon__wrap">
+          <div class="btn-icon-icon__list">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100%"
+              viewbox="0 0 10 8"
+              fill="none"
+              data-button-anim-target=""
+              class="btn-icon-icon__arrow"
+              ><path
+                d="M4.45231 0.385986H6.02531L9.30131 3.99999L6.02531 7.61399H4.45231L7.40331 4.58499H0.695312V3.42799H7.41631L4.45231 0.385986Z"
+                fill="currentColor"></path></svg
+            >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100%"
+              viewbox="0 0 10 8"
+              fill="none"
+              data-button-anim-target=""
+              class="btn-icon-icon__arrow"
+              ><path
+                d="M4.45231 0.385986H6.02531L9.30131 3.99999L6.02531 7.61399H4.45231L7.40331 4.58499H0.695312V3.42799H7.41631L4.45231 0.385986Z"
+                fill="currentColor"></path></svg
+            >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100%"
+              viewbox="0 0 10 8"
+              fill="none"
+              data-button-anim-target=""
+              class="btn-icon-icon__arrow"
+              ><path
+                d="M4.45231 0.385986H6.02531L9.30131 3.99999L6.02531 7.61399H4.45231L7.40331 4.58499H0.695312V3.42799H7.41631L4.45231 0.385986Z"
+                fill="currentColor"></path></svg
+            >
+          </div>
+        </div>
+      </div>
+      <div data-button-anim-target="" class="btn-icon-content__bg"></div>
+    </div>
+  </a>
+</div>
+
+<style>
+  .btn-group {
+    grid-column-gap: 3em;
+    grid-row-gap: 3em;
+    margin-block: 3em;
+    justify-content: center;
+    display: inline-flex;
+  }
+
+  .btn-icon-link {
+    grid-column-gap: 0.5em;
+    grid-row-gap: 0.5em;
+    color: #000;
+    font-size: 1em;
+    line-height: 1.2;
+    text-decoration: none;
+    display: flex;
+  }
+
+  .btn-icon-icon {
+    z-index: 1;
+    flex: none;
+    justify-content: center;
+    align-items: center;
+    width: 1em;
+    height: 1em;
+    display: flex;
+    position: relative;
+  }
+
+  .btn-icon-icon__bg {
+    background-color: currentColor;
+    border-radius: 0.125em;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+
+  .btn-icon-icon__wrap {
+    color: #000;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-icon-icon__wrap.color--white {
+    color: #fff;
+  }
+
+  .btn-icon-icon__list {
+    flex: none;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    display: flex;
+  }
+
+  .btn-icon-icon__arrow {
+    flex: none;
+    width: 1em;
+    height: 100%;
+    padding: 0.2em;
+  }
+
+  .btn-icon-content {
+    grid-column-gap: 0.5em;
+    grid-row-gap: 0.5em;
+    color: #fff;
+    background-color: #000;
+    border-radius: 0.5em;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.6125em 0.75em;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-icon-content__text {
+    font-size: 0.875em;
+  }
+
+  .btn-icon-content__mask {
+    z-index: 1;
+    flex: none;
+    justify-content: flex-start;
+    align-items: center;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-icon-content__bg {
+    z-index: 0;
+    background-color: #000;
+    width: 120%;
+    height: 100%;
+    position: absolute;
+    bottom: 0%;
+    left: -10%;
+    transform: translate(0, 175%) rotate(15deg);
+  }
+
+  /* Global attribute to easily control easing and timing of all targetted elements */
+  [data-button-anim-target] {
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  /* Fake a duplicate text element using text shadow without blur  */
+  /* We save the distance in a variable for easy use in the CSS animation */
+  .btn-icon-content__text {
+    --text-duplicate-distance: 1.5em;
+    text-shadow: 0px var(--text-duplicate-distance) currentColor;
+  }
+
+  /* Only apply hover animations if they are actually not supported */
+  @media (hover: hover) and (pointer: fine) {
+    .btn-icon-link:hover .btn-icon-content__text {
+      transform: translate(0px, calc(-1 * var(--text-duplicate-distance)));
+    }
+
+    .btn-icon-link:hover .btn-icon-icon__bg {
+      transform: rotate(90deg);
+    }
+
+    .btn-icon-link:hover .btn-icon-icon__arrow {
+      transform: translate(200%, 0px);
+    }
+
+    .btn-icon-link:hover .btn-icon-content__bg {
+      transform: translate(0px, 0%) rotate(0deg);
+    }
+  }
+</style>

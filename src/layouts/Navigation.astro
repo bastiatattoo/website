@@ -16,11 +16,7 @@ const navGroups = [
       { href: "/services", label: "Services" },
       { href: "/studio", label: "Studio" },
       { href: "/contact", label: "Contact" },
-      { href: "/system/overview", label: "Overview" },
-      {
-        href: "https://lexingtonthemes.com/templates/sandstone",
-        label: "Buy Sandstone"
-      }
+      { href: "/system/overview", label: "Overview" }
     ]
   },
   {
@@ -73,14 +69,14 @@ const navGroups = [
           {
             navGroups.map((group) => (
               <div class="space-y-3">
-                <Text tag="h3" variant="textXS" class="text-base-900">
+                <Text tag="h3" variant="textLG" class="text-base-900">
                   {group.title}
                 </Text>
                 <div class="space-y-1">
                   {group.items?.map((item) => (
                     <a
                       href={item.href}
-                      class="text-base-500 hover:text-base-900 block text-xs tracking-wide transition-colors focus:outline-none"
+                      class="text-base-500 hover:text-base-900 block text-base tracking-wide transition-colors focus:outline-none"
                       rel={group.type === "external" ? "noopener noreferrer" : undefined}
                       target={group.type === "external" ? "_blank" : undefined}>
                       {item.label}
@@ -93,23 +89,23 @@ const navGroups = [
         </div>
         <div
           class="mt-1 flex flex-col justify-between gap-2 rounded-xl bg-white p-4 lg:items-center">
-          <Text tag="p" variant="textXS" class="text-base-900">
+          <Text tag="p" variant="textLG" class="text-base-900">
             <span class="sr-only">Phone:</span>
             <a
               href="#_"
-              aria-label="Call us at 415 555 1234"
-              class="hover:text-base-900 text-base-500 text-xs transition-colors">
-              (415) 555-1234
+              aria-label="Appelez nous au 06 52 52 52 52"
+              class="hover:text-base-900 text-base-500 text-base transition-colors">
+              06 52 52 52 52
             </a>
           </Text>
           <span aria-hideen="true" class="text-base-900 hidden lg:inline-flex">·</span>
-          <Text tag="p" variant="textXS" class="text-base-900">
+          <Text tag="p" variant="textLG" class="text-base-900">
             <span class="sr-only">Email:</span>
             <a
               href="#_"
               aria-label="Email hello at sandstone dot com"
-              class="hover:text-base-900 text-base-500 text-xs transition-colors">
-              hello@sandstone.com
+              class="hover:text-base-900 text-base-500 text-base transition-colors">
+              contact@piercing-tattoo-studio.fr
             </a>
           </Text>
         </div>
