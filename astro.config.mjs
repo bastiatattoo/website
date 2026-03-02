@@ -30,7 +30,8 @@ export default defineConfig({
       servicePreview: "components/storyblok/ServicePreview",
       testimonials: "components/storyblok/Testimonials",
       textImage: "components/storyblok/TextImage",
-      gallery6: "components/storyblok/Gallery6"
+      gallery6: "components/storyblok/Gallery6",
+      contact: "components/storyblok/Contact"
     },
     enableFallbackComponent: true,
     customFallbackComponent: "components/storyblok/StoryblokFallback",

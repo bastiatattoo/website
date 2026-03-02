@@ -1,0 +1,483 @@
+---
+import Wrapper from "../fundations/containers/Wrapper.astro";
+import Text from "../fundations/elements/Text.astro";
+
+const { blok } = Astro.props;
+---
+
+<section>
+  <Wrapper variant="standard" class="py-12">
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
+      <div>
+        <Text tag="h2" variant="textLG" class="text-base-900 font-bold uppercase">
+          {blok.formTitle}
+        </Text>
+        <form
+          action="https://formsubmit.co/5c82ade3eca67936655754ce4fb6a5f3"
+          method="POST"
+          enctype="multipart/form-data"
+          class="mt-8 space-y-8">
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div class="space-y-2">
+              <label for="prenom" class="text-base-900 font-display text-sm font-medium uppercase">
+                Prénom
+              </label>
+              <input
+                type="text"
+                id="prenom"
+                name="prenom"
+                class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-accent-500 focus:ring-accent-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
+                required
+              />
+            </div>
+            <div class="space-y-2">
+              <label for="nom" class="text-base-900 font-display text-sm font-medium uppercase">
+                Nom
+              </label>
+              <input
+                type="text"
+                id="nom"
+                name="nom"
+                class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-accent-500 focus:ring-accent-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
+                required
+              />
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div class="space-y-2">
+              <label for="email" class="text-base-900 font-display text-sm font-medium uppercase">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-accent-500 focus:ring-accent-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
+                required
+              />
+            </div>
+            <div class="space-y-2">
+              <label
+                for="telephone"
+                class="text-base-900 font-display text-sm font-medium uppercase">
+                Téléphone
+              </label>
+              <input
+                type="tel"
+                id="telephone"
+                name="telephone"
+                class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-accent-500 focus:ring-accent-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
+                required
+              />
+            </div>
+          </div>
+          <div class="space-y-2">
+            <label for="message" class="text-base-900 font-display text-sm font-medium uppercase">
+              Message
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-accent-500 focus:ring-accent-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
+              placeholder="Comment pouvons-nous vous aider ?"
+              required></textarea>
+            <div class="file-upload inline-block">
+              <label
+                for="piece-jointe"
+                class="file-upload__label bg-base-900 x-4 hover:bg-base-700 focus-visible:outline-base-700 relative inline-flex cursor-pointer items-center justify-center rounded-md py-2 text-[1em] leading-tight whitespace-nowrap text-white no-underline shadow-md transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2">
+                <span class="flex items-center px-4">
+                  <svg
+                    class="icon inline-block h-[1em] w-[1em] shrink-0 fill-current leading-none text-inherit"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true">
+                    <g fill="currentColor">
+                      <path
+                        d="M18 12v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"></path>
+                      <path
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10 13V2"></path>
+                      <path
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 7l5-5 5 5"></path>
+                    </g>
+                  </svg>
+
+                  <span class="file-upload__text file-upload__text--has-max-width ml-1.5 lg:ml-2">
+                    Choisir un fichier
+                  </span>
+                </span>
+              </label>
+
+              <input
+                type="file"
+                class="file-upload__input"
+                name="piece-jointe"
+                accept="image/png, image/jpeg"
+                id="piece-jointe"
+              />
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn-icon-link w-inline-block">
+              <div class="btn-icon-content">
+                <div class="btn-icon-content__mask">
+                  <span data-button-anim-target="" class="btn-icon-content__text"> Envoyer </span>
+                </div>
+                <div data-icon-size="normal" class="btn-icon-icon">
+                  <div data-button-anim-target="" class="btn-icon-icon__bg"></div>
+                  <div class="btn-icon-icon__wrap">
+                    <div class="btn-icon-icon__list">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        viewbox="0 0 10 8"
+                        fill="none"
+                        data-button-anim-target=""
+                        class="btn-icon-icon__arrow"
+                        ><path
+                          d="M4.45231 0.385986H6.02531L9.30131 3.99999L6.02531 7.61399H4.45231L7.40331 4.58499H0.695312V3.42799H7.41631L4.45231 0.385986Z"
+                          fill="currentColor"></path></svg
+                      >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        viewbox="0 0 10 8"
+                        fill="none"
+                        data-button-anim-target=""
+                        class="btn-icon-icon__arrow"
+                        ><path
+                          d="M4.45231 0.385986H6.02531L9.30131 3.99999L6.02531 7.61399H4.45231L7.40331 4.58499H0.695312V3.42799H7.41631L4.45231 0.385986Z"
+                          fill="currentColor"></path></svg
+                      >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        viewbox="0 0 10 8"
+                        fill="none"
+                        data-button-anim-target=""
+                        class="btn-icon-icon__arrow"
+                        ><path
+                          d="M4.45231 0.385986H6.02531L9.30131 3.99999L6.02531 7.61399H4.45231L7.40331 4.58499H0.695312V3.42799H7.41631L4.45231 0.385986Z"
+                          fill="currentColor"></path></svg
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div data-button-anim-target="" class="btn-icon-content__bg"></div>
+              </div>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="space-y-12">
+        <div>
+          <Text tag="h2" variant="textLG" class="text-base-900 font-displau font-bold uppercase">
+            {blok.contactTitle}
+          </Text>
+          <div class="mt-8 space-y-12">
+            <div>
+              <Text tag="h3" variant="textLG" class="font-display text-base-900 uppercase">
+                Adresse
+              </Text>
+              <address>
+                <Text tag="p" variant="textSM" class="text-base-500 mt-2">
+                  {blok.adresse1}
+                  <br />
+                  {blok.adresse2}
+                </Text>
+              </address>
+            </div>
+            <div>
+              <Text tag="h3" variant="textLG" class="font-display text-base-900 uppercase">
+                Heures d'ouverture
+              </Text>
+              <div class="mt-2 space-y-1">
+                {
+                  blok.hours.map((hour) => (
+                    <div class="flex items-baseline lg:justify-between">
+                      <Text
+                        tag="span"
+                        variant="textSM"
+                        class="text-base-900 font-display font-medium uppercase">
+                        {hour.jours}
+                      </Text>
+                      <span class="border-base-300 mx-2 flex-1 border-b border-dotted" />
+                      <Text tag="span" variant="textSM" class="text-base-600">
+                        {" "}
+                        {hour.horaires}{" "}
+                      </Text>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+            <div>
+              <Text tag="h3" variant="textLG" class="font-display text-base-900 uppercase">
+                Contact
+              </Text>
+              <div class="mt-2 flex flex-col gap-2 text-sm">
+                <a
+                  href={`tel:+33${blok.tel.replace(/\s/g, "").slice(1)}`}
+                  class="text-base-500 hover:text-accent-500 transition-colors">
+                  {blok.tel}
+                </a>
+                <a
+                  href={`mailto:${blok.email}`}
+                  class="text-base-500 hover:text-accent-500 transition-colors">
+                  {blok.email}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Wrapper>
+</section>
+
+<style>
+  /* --------------------------------
+
+File#: _1_file-upload
+Title: File Upload
+Descr: Custom file input element used to select and upload a file
+Usage: codyhouse.co/license
+
+-------------------------------- */
+  .file-upload__input {
+    /* visually hide input file element */
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    width: 1px;
+    height: 1px;
+  }
+  .file-upload__text--has-max-width {
+    /* set a max width to the label text */
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .btn-group {
+    grid-column-gap: 3em;
+    grid-row-gap: 3em;
+    margin-block: 1em;
+    justify-content: center;
+    display: inline-flex;
+  }
+
+  .btn-icon-link {
+    grid-column-gap: 0.5em;
+    grid-row-gap: 0.5em;
+    color: #000;
+    font-size: 1em;
+    line-height: 1.2;
+    text-decoration: none;
+    display: flex;
+  }
+
+  .btn-icon-icon {
+    z-index: 1;
+    flex: none;
+    justify-content: center;
+    align-items: center;
+    width: 1em;
+    height: 1em;
+    display: flex;
+    position: relative;
+  }
+
+  .btn-icon-icon__bg {
+    background-color: currentColor;
+    border-radius: 0.125em;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+
+  .btn-icon-icon__wrap {
+    color: #000;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-icon-icon__wrap.color--white {
+    color: #fff;
+  }
+
+  .btn-icon-icon__list {
+    flex: none;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    display: flex;
+  }
+
+  .btn-icon-icon__arrow {
+    flex: none;
+    width: 1em;
+    height: 100%;
+    padding: 0.2em;
+  }
+
+  .btn-icon-content {
+    grid-column-gap: 0.5em;
+    grid-row-gap: 0.5em;
+    color: #fff;
+    background-color: #000;
+    border-radius: 0.5em;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.6125em 0.75em;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-icon-content__text {
+    font-size: 0.875em;
+  }
+
+  .btn-icon-content__mask {
+    z-index: 1;
+    flex: none;
+    justify-content: flex-start;
+    align-items: center;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-icon-content__bg {
+    z-index: 0;
+    background-color: #000;
+    width: 120%;
+    height: 100%;
+    position: absolute;
+    bottom: 0%;
+    left: -10%;
+    transform: translate(0, 175%) rotate(15deg);
+  }
+
+  /* Global attribute to easily control easing and timing of all targetted elements */
+  [data-button-anim-target] {
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  /* Fake a duplicate text element using text shadow without blur  */
+  /* We save the distance in a variable for easy use in the CSS animation */
+  .btn-icon-content__text {
+    --text-duplicate-distance: 1.5em;
+    text-shadow: 0px var(--text-duplicate-distance) currentColor;
+  }
+
+  /* Only apply hover animations if they are actually not supported */
+  @media (hover: hover) and (pointer: fine) {
+    .btn-icon-link:hover .btn-icon-content__text {
+      transform: translate(0px, calc(-1 * var(--text-duplicate-distance)));
+    }
+
+    .btn-icon-link:hover .btn-icon-icon__bg {
+      transform: rotate(90deg);
+    }
+
+    .btn-icon-link:hover .btn-icon-icon__arrow {
+      transform: translate(200%, 0px);
+    }
+
+    .btn-icon-link:hover .btn-icon-content__bg {
+      transform: translate(0px, 0%) rotate(0deg);
+    }
+  }
+</style>
+
+<script>
+  // File#: _1_file-upload
+  // Usage: codyhouse.co/license
+  (function () {
+    var InputFile = function (element) {
+      this.element = element;
+      this.input = this.element.getElementsByClassName("file-upload__input")[0];
+      this.label = this.element.getElementsByClassName("file-upload__label")[0];
+      this.multipleUpload = this.input.hasAttribute("multiple"); // allow for multiple files selection
+
+      // this is the label text element -> when user selects a file, it will be changed from the default value to the name of the file
+      this.labelText = this.element.getElementsByClassName("file-upload__text")[0];
+      this.initialLabel = this.labelText.textContent;
+
+      initInputFileEvents(this);
+    };
+
+    function initInputFileEvents(inputFile) {
+      // make label focusable
+      inputFile.label.setAttribute("tabindex", "0");
+      inputFile.input.setAttribute("tabindex", "-1");
+
+      // move focus from input to label -> this is triggered when a file is selected or the file picker modal is closed
+      inputFile.input.addEventListener("focusin", function (event) {
+        inputFile.label.focus();
+      });
+
+      // press 'Enter' key on label element -> trigger file selection
+      inputFile.label.addEventListener("keydown", function (event) {
+        if (
+          (event.keyCode && event.keyCode == 13) ||
+          (event.key && event.key.toLowerCase() == "enter")
+        ) {
+          inputFile.input.click();
+        }
+      });
+
+      // file has been selected -> update label text
+      inputFile.input.addEventListener("change", function (event) {
+        updateInputLabelText(inputFile);
+      });
+    }
+
+    function updateInputLabelText(inputFile) {
+      var label = "";
+      if (inputFile.input.files && inputFile.input.files.length < 1) {
+        label = inputFile.initialLabel; // no selection -> revert to initial label
+      } else if (
+        inputFile.multipleUpload &&
+        inputFile.input.files &&
+        inputFile.input.files.length > 1
+      ) {
+        label = inputFile.input.files.length + " files"; // multiple selection -> show number of files
+      } else {
+        label = inputFile.input.value.split("\\").pop(); // single file selection -> show name of the file
+      }
+      inputFile.labelText.textContent = label;
+    }
+
+    //initialize the InputFile objects
+    var inputFiles = document.getElementsByClassName("file-upload");
+    if (inputFiles.length > 0) {
+      for (var i = 0; i < inputFiles.length; i++) {
+        (function (i) {
+          new InputFile(inputFiles[i]);
+        })(i);
+      }
+    }
+  })();
+</script>
