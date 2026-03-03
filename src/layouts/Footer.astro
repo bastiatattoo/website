@@ -1,33 +1,91 @@
+---
+import { useStoryblokApi } from "@storyblok/astro";
+const storyblokApi = useStoryblokApi();
+let pages, rels, socials, contacts;
+try {
+  const { data } = await storyblokApi.get(`cdn/stories/global`, {
+    version: "draft",
+    token: import.meta.env.STORYBLOK_TOKEN,
+    resolve_relations: "pages"
+  });
+  rels = data.rels;
+  pages = data.story.content.pages;
+  socials = data.story.content.socials;
+  contacts = data.story.content.contacts;
+} catch (error) {
+  console.error("[DEBUG] Storyblok API error:", error.message);
+}
+const pagesSorted = pages.map((page) => {
+  const rel = rels.find((r) => r.uuid === page);
+  return {
+    name: rel.name,
+    full_slug: rel.full_slug
+  };
+});
+
+contacts = contacts.map((contact) => {
+  return {
+    content: contact.content,
+    url: contact.isTel
+      ? `tel:${contact.url}`
+      : contact.isEmail
+        ? `mailto:${contact.url}`
+        : contact.url
+  };
+});
+---
+
 <div data-footer-parallax="" class="footer-wrap">
   <footer data-footer-parallax-inner="" class="demo-footer">
     <div class="demo-footer__links-row">
       <div class="demo-footer__col">
         <p class="demo-eyebrow">( Pages )</p>
         <div class="demo-footer__links">
-          <a data-underline-link="" href="#" class="demo-footer__a">Home</a>
-          <a data-underline-link="" href="#" class="demo-footer__a">Resources</a>
-          <a data-underline-link="" href="#" class="demo-footer__a">About</a>
-          <a data-underline-link="" href="#" class="demo-footer__a">Platform</a>
-          <a data-underline-link="" href="#" class="demo-footer__a">Login</a>
+          {
+            pagesSorted.length > 0 &&
+              pagesSorted.map((page) => (
+                <a
+                  data-underline-link=""
+                  href={`/${page.full_slug === "home" ? "" : page.full_slug}`}
+                  class="demo-footer__a">
+                  {page.name}
+                </a>
+              ))
+          }
         </div>
       </div>
       <div class="demo-footer__col">
         <p class="demo-eyebrow">( Socials )</p>
         <div class="demo-footer__links">
-          <a data-underline-link="" href="#" class="demo-footer__a">LinkedIn</a>
-          <a data-underline-link="" href="#" class="demo-footer__a">Instagram</a>
-          <a data-underline-link="" href="#" class="demo-footer__a">X/Twitter</a>
+          {
+            socials.length > 0 &&
+              socials.map((social) => (
+                <a data-underline-link="" href={social.url} class="demo-footer__a">
+                  {social.name}
+                </a>
+              ))
+          }
         </div>
       </div>
       <div class="demo-footer__col">
         <p class="demo-eyebrow">( Contact )</p>
-        <div class="demo-footer__links">
-          <a data-underline-link="" href="#" class="demo-footer__a">hello@osmo.supply</a>
-          <a data-underline-link="" href="#" class="demo-footer__a">+31 6 12 34 56 78</a>
+        <div class="demo-footer__links space-y-4">
+          {
+            contacts.length > 0 &&
+              contacts.map((contact) =>
+                contact.url ? (
+                  <a data-underline-link="" href={contact.url} class="demo-footer__a">
+                    {contact.content}
+                  </a>
+                ) : (
+                  <span class="demo-footer__a my-4">{contact.content}</span>
+                )
+              )
+          }
         </div>
       </div>
     </div>
-    <div class="demo-footer__logo-row mx-auto max-h-96 w-[300px] w-auto">
+    <div class="demo-footer__logo-row max-w-250 self-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xml:space="preserve"
@@ -172,7 +230,6 @@
     letter-spacing: -0.02em;
     border-bottom: 1px solid #201d1d26;
     flex-flow: column;
-    justify-content: space-between;
     width: 100%;
     min-height: 100svh;
     padding: 2.5em;
