@@ -63,11 +63,15 @@ const services = blok.list;
               {services[0].description}
             </Text>
           </div>
-          <RollingLink
-            href={blok.linkUrl.story.full_slug}
-            initialText={blok.linkInitialText}
-            class="mt-8 self-end"
-          />
+          {
+            blok.linkUrl.story?.full_slug && (
+              <RollingLink
+                href={blok.linkUrl.story.full_slug}
+                initialText={blok.linkInitialText}
+                class="mt-8 self-end"
+              />
+            )
+          }
         </div>
       </div>
     </div>
