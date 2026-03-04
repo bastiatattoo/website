@@ -1,0 +1,246 @@
+---
+const { blok } = Astro.props;
+
+const allFilters = blok.images.map((image) => image["filter"]).flat();
+const filters = [
+  { name: "Tout", target: "all" },
+  ...[...new Set(allFilters)].map((f) => ({
+    name: f,
+    target: f
+  }))
+];
+
+const items = blok.images.map((image) => ({
+  filter: image["filter"].join(" "),
+  src: image["image"].filename
+}));
+---
+
+<div data-filter-group="" role="group" class="filter-group">
+  <div class="filter-buttons">
+    {
+      filters.map((filter) => (
+        <button
+          data-filter-target={filter.target}
+          data-filter-status="not-active"
+          aria-pressed="false"
+          aria-controls="filter-list"
+          class="filter-btn">
+          {filter.name}
+        </button>
+      ))
+    }
+  </div>
+  <div aria-live="polite" role="list" class="filter-list">
+    {
+      items.map((item) => (
+        <div
+          role="listitem"
+          data-filter-name={item.filter}
+          data-filter-status="active"
+          class="filter-list__item">
+          <div class="demo-card">
+            <img src={item.src} alt="" />
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .filter-group {
+    min-height: 100vh;
+    padding-bottom: 10em;
+  }
+
+  /* Filter Buttons */
+  .filter-buttons {
+    grid-column-gap: 0.5em;
+    grid-row-gap: 0.5em;
+    flex-flow: wrap;
+    justify-content: flex-start;
+    padding: 1em 1em 3em;
+    display: flex;
+  }
+
+  .filter-btn {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--color-base-300);
+    border-radius: 0.5em;
+    padding: 0.65em 1.25em;
+    font-size: 1.5em;
+    transition:
+      color 0.6s cubic-bezier(0.625, 0.05, 0, 1),
+      background-color 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  .filter-btn[data-filter-status="active"] {
+    background-color: var(--color-base-800);
+    color: var(--color-base-200);
+  }
+
+  /* Filter List */
+  .filter-list {
+    flex-flow: wrap;
+    width: 100%;
+    display: flex;
+  }
+
+  .filter-list__item {
+    width: 25%;
+    padding: 0.75em;
+  }
+
+  .filter-list__item[data-filter-status="active"] {
+    transition:
+      opacity 0.6s cubic-bezier(0.625, 0.05, 0, 1),
+      transform 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+    transform: scale(1) rotate(0.001deg);
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+  }
+  .filter-list__item[data-filter-status="transition-out"] {
+    transition:
+      opacity 0.45s cubic-bezier(0.625, 0.05, 0, 1),
+      transform 0.45s cubic-bezier(0.625, 0.05, 0, 1);
+    transform: scale(0.9) rotate(0.001deg);
+    opacity: 0;
+    visibility: visible;
+  }
+  .filter-list__item[data-filter-status="not-active"] {
+    transform: scale(0.9) rotate(0.001deg);
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+  }
+
+  /* Demo Card */
+  .demo-card {
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+    background-color: var(--color-base-200);
+    flex-flow: column;
+    width: 100%;
+    padding: 0%;
+    display: flex;
+  }
+  .demo-card img {
+    border-radius: 0.5em;
+  }
+
+  @media screen and (max-width: 991px) {
+    .filter-list__item {
+      width: 50%;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .filter-list__item {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  function initBasicFilterSetupMultiMatch() {
+    const transitionDelay = 300;
+    const groups = [...document.querySelectorAll("[data-filter-group]")];
+
+    groups.forEach((group) => {
+      const buttons = [...group.querySelectorAll("[data-filter-target]")];
+      const items = [...group.querySelectorAll("[data-filter-name]")];
+
+      // collect names once (init only)
+      items.forEach((item) => {
+        const cs = item.querySelectorAll("[data-filter-name-collect]");
+        if (!cs.length) return;
+        const seen = new Set(),
+          out = [];
+        cs.forEach((c) => {
+          const v = (c.getAttribute("data-filter-name-collect") || "").trim().toLowerCase();
+          if (v && !seen.has(v)) {
+            seen.add(v);
+            out.push(v);
+          }
+        });
+        if (out.length) item.setAttribute("data-filter-name", out.join(" "));
+      });
+
+      // cache tokens
+      const itemTokens = new Map();
+      items.forEach((el) => {
+        const tokens = (el.getAttribute("data-filter-name") || "")
+          .trim()
+          .toLowerCase()
+          .split(/\s+/)
+          .filter(Boolean);
+        itemTokens.set(el, new Set(tokens));
+      });
+
+      // state helpers
+      const setItemState = (el, on) => {
+        const next = on ? "active" : "not-active";
+        if (el.getAttribute("data-filter-status") !== next) {
+          el.setAttribute("data-filter-status", next);
+          el.setAttribute("aria-hidden", on ? "false" : "true");
+        }
+      };
+      const setButtonState = (btn, on) => {
+        const next = on ? "active" : "not-active";
+        if (btn.getAttribute("data-filter-status") !== next) {
+          btn.setAttribute("data-filter-status", next);
+          btn.setAttribute("aria-pressed", on ? "true" : "false");
+        }
+      };
+
+      let activeTarget = null;
+      const itemMatches = (el) => {
+        if (!activeTarget || activeTarget === "all") return true;
+        return itemTokens.get(el).has(activeTarget);
+      };
+
+      const paint = (rawTarget) => {
+        const target = (rawTarget || "").trim().toLowerCase();
+        activeTarget = !target || target === "all" ? "all" : target;
+
+        items.forEach((el) => {
+          if (el._ft) clearTimeout(el._ft);
+          const next = itemMatches(el);
+          const cur = el.getAttribute("data-filter-status");
+          if (cur === "active" && transitionDelay > 0) {
+            el.setAttribute("data-filter-status", "transition-out");
+            el._ft = setTimeout(() => {
+              setItemState(el, next);
+              el._ft = null;
+            }, transitionDelay);
+          } else if (transitionDelay > 0) {
+            el._ft = setTimeout(() => {
+              setItemState(el, next);
+              el._ft = null;
+            }, transitionDelay);
+          } else {
+            setItemState(el, next);
+          }
+        });
+
+        buttons.forEach((btn) => {
+          const t = (btn.getAttribute("data-filter-target") || "").trim().toLowerCase();
+          setButtonState(btn, (activeTarget === "all" && t === "all") || (t && t === activeTarget));
+        });
+      };
+
+      group.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-filter-target]");
+        if (btn && group.contains(btn)) paint(btn.getAttribute("data-filter-target"));
+      });
+    });
+  }
+
+  // Initialize Basic Filter Setup (Multi Match)
+  document.addEventListener("DOMContentLoaded", () => {
+    initBasicFilterSetupMultiMatch();
+  });
+</script>

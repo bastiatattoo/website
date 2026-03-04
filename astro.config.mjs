@@ -31,7 +31,8 @@ export default defineConfig({
       testimonials: "components/storyblok/Testimonials",
       textImage: "components/storyblok/TextImage",
       gallery6: "components/storyblok/Gallery6",
-      contact: "components/storyblok/Contact"
+      contact: "components/storyblok/Contact",
+      filterGallery: "components/storyblok/FilterGallery"
     },
     enableFallbackComponent: true,
     customFallbackComponent: "components/storyblok/StoryblokFallback",

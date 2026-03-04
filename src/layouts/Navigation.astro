@@ -7,26 +7,62 @@ import Wrapper from "../components/fundations/containers/Wrapper.astro";
 // Icons
 import DotsThree from "../components/fundations/icons/DotsThree.astro";
 import DotsNine from "../components/fundations/icons/DotsNine.astro";
+// Storyblok
+import { useStoryblokApi } from "@storyblok/astro";
+import { cp } from "fs";
+const storyblokApi = useStoryblokApi();
+
+let nav, rels, socials, contacts;
+try {
+  const { data } = await storyblokApi.get(`cdn/stories/global`, {
+    version: "draft",
+    token: import.meta.env.STORYBLOK_TOKEN,
+    resolve_relations: "pages"
+  });
+  rels = data.rels;
+  nav = data.story.content.nav;
+  socials = data.story.content.socials;
+  contacts = data.story.content.contacts;
+} catch (error) {
+  console.error("[DEBUG] Storyblok API error:", error.message);
+}
+const navSorted = nav.map((page) => {
+  const rel = rels.find((r) => r.uuid === page);
+  return {
+    name: rel.name,
+    full_slug: rel.full_slug
+  };
+});
+
+contacts = contacts.map((contact) => {
+  return {
+    content: contact.content,
+    url: contact.isTel
+      ? `tel:${contact.content}`
+      : contact.isEmail
+        ? `mailto:${contact.content}`
+        : contact.url,
+    isTel: contact.isTel,
+    isEmail: contact.isEmail
+  };
+});
+
 const navGroups = [
   {
     title: "Navigation",
     type: "links",
-    items: [
-      { href: "/projects", label: "Projects" },
-      { href: "/services", label: "Services" },
-      { href: "/studio", label: "Studio" },
-      { href: "/contact", label: "Contact" },
-      { href: "/system/overview", label: "Overview" }
-    ]
+    items: navSorted.map((page) => ({
+      href: `/${page.full_slug === "home" ? "" : page.full_slug}`,
+      label: page.name
+    }))
   },
   {
     title: "Connect",
     type: "external",
-    items: [
-      { href: "https://www.linkedin.com", label: "LinkedIn" },
-      { href: "https://www.instagram.com", label: "Instagram" },
-      { href: "https://www.behance.net", label: "Behance" }
-    ]
+    items: socials.map((social) => ({
+      href: social.url,
+      label: social.name
+    }))
   }
 ];
 ---
@@ -34,7 +70,7 @@ const navGroups = [
 <header class="pointer-events-none fixed top-8 z-100 w-full">
   <Wrapper variant="wide">
     <nav
-      class="pointer-events-auto mx-4 flex items-center justify-between gap-2 rounded-xl bg-white p-4 lg:max-w-sm">
+      class="bg-base-50 pointer-events-auto mx-4 flex items-center justify-between gap-2 rounded-xl p-4 lg:max-w-sm">
       <a href="/">
         <Logo
           class="text-base-900 text-base font-semibold tracking-tighter uppercase transition-colors focus:outline-none"
@@ -65,7 +101,7 @@ const navGroups = [
       <div
         id="mobile-menu-inner"
         class="h-0 overflow-hidden transition-[height] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]">
-        <div class="grid grid-cols-1 gap-4 rounded-xl bg-white p-4 sm:grid-cols-2">
+        <div class="bg-base-50 grid grid-cols-1 gap-4 rounded-xl p-4 sm:grid-cols-2">
           {
             navGroups.map((group) => (
               <div class="space-y-3">
@@ -88,26 +124,34 @@ const navGroups = [
           }
         </div>
         <div
-          class="mt-1 flex flex-col justify-between gap-2 rounded-xl bg-white p-4 lg:items-center">
-          <Text tag="p" variant="textLG" class="text-base-900">
-            <span class="sr-only">Phone:</span>
-            <a
-              href="#_"
-              aria-label="Appelez nous au 06 52 52 52 52"
-              class="hover:text-base-900 text-base-500 text-base transition-colors">
-              06 52 52 52 52
-            </a>
-          </Text>
-          <span aria-hideen="true" class="text-base-900 hidden lg:inline-flex">·</span>
-          <Text tag="p" variant="textLG" class="text-base-900">
-            <span class="sr-only">Email:</span>
-            <a
-              href="#_"
-              aria-label="Email hello at sandstone dot com"
-              class="hover:text-base-900 text-base-500 text-base transition-colors">
-              contact@piercing-tattoo-studio.fr
-            </a>
-          </Text>
+          class="bg-base-50 mt-1 flex flex-col justify-between gap-2 rounded-xl p-4 lg:items-center">
+          {
+            contacts.map((contact) =>
+              contact.isTel ? (
+                <Text tag="p" variant="textLG" class="text-base-900">
+                  <span class="sr-only">Téléphone:</span>
+                  <a
+                    href={contact.url}
+                    aria-label={`Appelez nous au ${contact.content}`}
+                    class="hover:text-base-900 text-base-500 text-base transition-colors">
+                    {contact.content}
+                  </a>
+                </Text>
+              ) : contact.isEmail ? (
+                <Text tag="p" variant="textLG" class="text-base-900">
+                  <span class="sr-only">Email:</span>
+                  <a
+                    href={contact.url}
+                    aria-label={`Email ${contact.content}`}
+                    class="hover:text-base-900 text-base-500 text-base transition-colors">
+                    {contact.content}
+                  </a>
+                </Text>
+              ) : (
+                <span class="text-base-500 text-base">{contact.content}</span>
+              )
+            )
+          }
         </div>
       </div>
     </nav>

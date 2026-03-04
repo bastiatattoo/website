@@ -16,7 +16,7 @@ const { blok } = Astro.props;
   <Wrapper variant="paddingless" class="py-12">
     <div class="grid grid-cols-1 items-start gap-4 gap-y-4 lg:grid-cols-3 xl:ml-8">
       <div
-        class="order-last flex w-sm max-w-screen flex-col justify-between p-4 lg:order-first lg:rounded-2xl lg:bg-white xl:p-8">
+        class="lg:bg-base-50 order-last flex w-sm max-w-screen flex-col justify-between p-4 lg:order-first lg:rounded-2xl xl:p-8">
         <div>
           <Text tag="h2" variant="textXL" class="text-base-900 mt-4 font-medium text-balance">
             {blok.title}
@@ -39,7 +39,7 @@ const { blok } = Astro.props;
       <div id="testimonials-slider" class="keen-slider h-full pl-4 lg:col-span-2 lg:pl-0">
         {
           blok.testimonials.map((testimonial) => (
-            <div class="keen-slider__slide flex h-full flex-col justify-between overflow-hidden rounded-2xl bg-white p-8">
+            <div class="keen-slider__slide bg-base-50 flex h-full flex-col justify-between overflow-hidden rounded-2xl p-8">
               <blockquote>
                 <span aria-hidden="true" class="text-9xl italic">
                   "

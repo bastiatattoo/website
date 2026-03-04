@@ -13,7 +13,7 @@ const { blok } = Astro.props;
   <Wrapper variant="standard" class="py-12 lg:py-24">
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
       <div>
-        <div class="flex max-w-sm flex-col rounded-xl bg-white px-4 py-8 lg:sticky lg:top-24">
+        <div class="bg-base-50 flex max-w-sm flex-col rounded-xl px-4 py-8 lg:sticky lg:top-24">
           <Kicker copy={blok.title} />
           <Text tag="h3" variant="textXLG" class="text-base-900 mt-12 font-medium text-balance">
             {blok.intro}
@@ -23,7 +23,7 @@ const { blok } = Astro.props;
       <div class="divide-base-500 border-base-500 divide-y border-y lg:col-span-2">
         {
           blok.list.map((step) => (
-            <div class="grid grid-cols-1 gap-4 bg-gray-50 py-8 md:grid-cols-3 lg:sticky lg:top-0 lg:grid-cols-4">
+            <div class="bg-base-100 grid grid-cols-1 gap-4 py-8 md:grid-cols-3 lg:sticky lg:top-0 lg:grid-cols-4">
               <div class="text-balance lg:col-span-2 lg:col-start-2">
                 <Text
                   tag="h3"

@@ -1,6 +1,8 @@
 ---
+// Storyblok
 import { useStoryblokApi } from "@storyblok/astro";
 const storyblokApi = useStoryblokApi();
+
 let pages, rels, socials, contacts;
 try {
   const { data } = await storyblokApi.get(`cdn/stories/global`, {
@@ -85,7 +87,7 @@ contacts = contacts.map((contact) => {
         </div>
       </div>
     </div>
-    <div class="demo-footer__logo-row max-w-250 self-center">
+    <div class="demo-footer__logo-row max-w-250 self-center lg:self-start">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xml:space="preserve"
@@ -206,90 +208,6 @@ contacts = contacts.map((contact) => {
 </div>
 
 <style>
-  .demo-main {
-    overflow: clip;
-  }
-
-  .demo-eyebrow {
-    opacity: 0.5;
-    margin-bottom: 0;
-    font-size: 1.3125em;
-    font-weight: 600;
-  }
-
-  .demo-p {
-    max-width: 19em;
-    margin-bottom: 0;
-    font-size: 1.3125em;
-    font-weight: 600;
-  }
-
-  .demo-header {
-    grid-column-gap: 7.5em;
-    grid-row-gap: 7.5em;
-    letter-spacing: -0.02em;
-    border-bottom: 1px solid #201d1d26;
-    flex-flow: column;
-    width: 100%;
-    min-height: 100svh;
-    padding: 2.5em;
-    font-weight: 600;
-    display: flex;
-    position: relative;
-  }
-
-  .demo-header__nav-row {
-    justify-content: space-between;
-    align-items: flex-start;
-    display: flex;
-  }
-
-  .demo-header__title-row {
-    grid-column-gap: 2.5em;
-    grid-row-gap: 2.5em;
-    padding-left: calc(33.3333% + 0.833333em);
-    display: flex;
-  }
-
-  .demo-header__info-row {
-    grid-column-gap: 2.5em;
-    grid-row-gap: 2.5em;
-    display: flex;
-  }
-
-  .demo-header__col {
-    grid-column-gap: 3em;
-    grid-row-gap: 3em;
-    flex-flow: column;
-    justify-content: space-between;
-    width: calc(33.3333% - 1.66667em);
-    display: flex;
-  }
-
-  .demo-header__h1 {
-    letter-spacing: -0.03em;
-    max-width: 11em;
-    font-size: 4em;
-    font-weight: 600;
-    line-height: 0.95;
-  }
-
-  .demo-header__img {
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
-    width: 100%;
-  }
-
-  .demo-header__logo {
-    width: 15em;
-  }
-
-  .demo-header__nav-a {
-    margin-bottom: 0;
-    font-size: 1.3125em;
-    font-weight: 600;
-  }
-
   .footer-wrap {
     position: relative;
     overflow: hidden;
@@ -297,10 +215,9 @@ contacts = contacts.map((contact) => {
 
   .demo-footer {
     grid-column-gap: 7.5em;
-    grid-row-gap: 7.5em;
+    grid-row-gap: 2em;
     letter-spacing: -0.02em;
     flex-flow: column;
-    justify-content: space-between;
     min-height: 100svh;
     padding: 2.5em;
     font-weight: 600;
