@@ -39,8 +39,8 @@ const items = blok.images.map((image) => ({
           data-filter-name={item.filter}
           data-filter-status="active"
           class="filter-list__item">
-          <div class="demo-card">
-            <img src={item.src} alt="" />
+          <div class="demo-card rounded-xl">
+            <img src={item.src} alt="" class="rounded-xl" />
           </div>
         </div>
       ))
@@ -126,9 +126,6 @@ const items = blok.images.map((image) => ({
     width: 100%;
     padding: 0%;
     display: flex;
-  }
-  .demo-card img {
-    border-radius: 0.5em;
   }
 
   @media screen and (max-width: 991px) {

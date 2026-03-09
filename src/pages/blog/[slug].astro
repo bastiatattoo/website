@@ -1,0 +1,125 @@
+---
+// Assets
+import { Image } from "astro:assets";
+// Storyblok
+import { useStoryblokApi } from "@storyblok/astro";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+// Components
+import Layout from "../../layouts/Layout.astro";
+import Wrapper from "../../components/fundations/containers/Wrapper.astro";
+import Text from "../../components/fundations/elements/Text.astro";
+import RollingLink from "../../components/fundations/elements/RollingLink.astro";
+
+// SSG: Generate static paths for all blog articles
+export async function getStaticPaths() {
+  const isPreview = import.meta.env.IS_PREVIEW === true || import.meta.env.IS_PREVIEW === "true";
+  const version = isPreview ? "draft" : "published";
+  const sbApi = useStoryblokApi();
+
+  // Fetch all blog stories
+  const { data } = await sbApi.get("cdn/stories", {
+    version: version,
+    token: import.meta.env.STORYBLOK_TOKEN,
+    starts_with: "blog/",
+    per_page: 100,
+    sort_by: "first_published_at:desc",
+    content_type: "blog"
+  });
+
+  return data.stories.map((story: any) => ({
+    params: { slug: story.slug },
+    props: { story }
+  }));
+}
+
+interface Props {
+  story: any;
+}
+
+const { story: storyFromProps } = Astro.props as Props;
+
+// SSG mode: story comes from getStaticPaths props
+let story = storyFromProps;
+
+// Guard: If story is undefined, return 404
+if (!story) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Article non trouvé"
+  });
+}
+
+// SEO
+const seo = {
+  title: story.content?.title
+    ? `${story.content.title} | Bastia Tattoo`
+    : "Article | Bastia Tattoo",
+  description: story.content?.description || "Article sur Bastia Tattoo",
+  robots: story.content?.robots || "all",
+  ogImage: story.content?.ogImage?.filename || story.content?.featured_image?.filename || null,
+  ogImageAlt:
+    story.content?.ogImageAlt || story.content?.featured_image?.alt || story.content?.title || null,
+  canonical: story.content?.canonical?.url || null
+};
+---
+
+<Layout seo={seo}>
+  <article class="mb-16">
+    <Wrapper variant="wide" class="pt-4 pb-8">
+      <div class="relative h-[calc(100vh-2rem)] overflow-hidden rounded-3xl">
+        <Image
+          width={1440}
+          height={1080}
+          loading="eager"
+          decoding="async"
+          alt={story.content?.featured_image?.alt}
+          src={story.content?.featured_image?.filename}
+          class="absolute inset-0 size-full object-cover object-center"
+        />
+
+        <div class="absolute right-4 bottom-4 left-4 flex max-w-sm flex-col">
+          <div class="bg-base-100 w-fit rounded-2xl p-8">
+            <Text tag="p" variant="textXS" class="text-base-500">
+              <span>
+                Le
+                <time
+                  datetime={new Date(story.first_published_at || story.created_at).toISOString()}>
+                  {
+                    new Date(story.first_published_at || story.created_at).toLocaleDateString(
+                      "fr-FR",
+                      {
+                        year: "numeric",
+                        month: "long",
+                        day: "2-digit"
+                      }
+                    )
+                  }
+                </time>
+              </span>
+            </Text>
+            <Text
+              tag="h2"
+              variant="textLG"
+              class="text-base-600 mt-12 font-medium tracking-tight text-balance 2xl:text-2xl">
+              {story.content?.title}
+            </Text>
+            <Text
+              tag="p"
+              variant="textSM"
+              class="text-base-600 mt-2 tracking-tight text-pretty 2xl:text-2xl">
+              {story.content?.description}
+            </Text>
+          </div>
+        </div>
+      </div>
+    </Wrapper>
+
+    <div class="article-body">
+      {story.content?.body && <StoryblokComponent blok={story.content} />}
+    </div>
+
+    <footer class="article-footer px-8">
+      <RollingLink href="/blog" initialText="Retour au sommaire" />
+    </footer>
+  </article>
+</Layout>

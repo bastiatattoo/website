@@ -1,0 +1,268 @@
+---
+import { useStoryblokApi } from "@storyblok/astro";
+import Layout from "../../layouts/Layout.astro";
+import type { PaginateFunction } from "astro";
+
+const storyblokApi = useStoryblokApi();
+const isPreview = import.meta.env.IS_PREVIEW === true || import.meta.env.IS_PREVIEW === "true";
+const version = isPreview ? "draft" : "published";
+
+// ============================================
+// SSG MODE: getStaticPaths with paginate()
+// ============================================
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
+  // Number of articles per page (default)
+  const DEFAULT_POSTS_PER_PAGE = 6;
+  const sbApi = useStoryblokApi();
+
+  // Fetch all blog stories
+  const { data } = await sbApi.get("cdn/stories", {
+    version: "published",
+    token: import.meta.env.STORYBLOK_TOKEN,
+    starts_with: "blog/",
+    per_page: 100,
+    sort_by: "first_published_at:desc",
+    content_type: "blog"
+  });
+
+  return paginate(data.stories, {
+    pageSize: DEFAULT_POSTS_PER_PAGE
+  });
+}
+
+// ============================================
+// Props from getStaticPaths (SSG) or from SSR
+// ============================================
+interface Props {
+  page?: {
+    data: any[];
+    currentPage: number;
+    lastPage: number;
+    url: {
+      prev: string | undefined;
+      next: string | undefined;
+    };
+  };
+}
+
+const { page: pageFromProps } = Astro.props as Props;
+let story;
+
+// SSG mode: story comes from getStaticPaths props
+story = pageFromProps;
+
+// SSG mode: use default SEO (will be enhanced in getStaticPaths if needed)
+const seo = {
+  title: "Blog | Bastia Tattoo",
+  description: "Découvrez nos articles sur le tattoo, les conseils et inspirations.",
+  robots: "all",
+  ogImage: null,
+  ogImageAlt: null,
+  canonical: Astro.url.pathname
+};
+---
+
+<Layout seo={seo}>
+  <div class="blog-index">
+    <h1>Blog</h1>
+    {
+      story.data.length > 0 ? (
+        <>
+          <div class="articles-list">
+            {story.data.map((article) => (
+              <article class="article-card">
+                <a href={`/blog/${article.full_slug?.replace(/^blog\//, "") || article.slug}`}>
+                  {article.content.featured_image && (
+                    <div class="article-image">
+                      <img
+                        src={article.content.featured_image.filename}
+                        alt={article.content.featured_image.alt || article.content.title}
+                      />
+                    </div>
+                  )}
+                  <div class="article-content">
+                    <h2>{article.content.title}</h2>
+                    {article.content.description && (
+                      <p class="article-excerpt">{article.content.description}</p>
+                    )}
+                    {article.first_published_at && (
+                      <time datetime={article.first_published_at}>
+                        {new Date(article.first_published_at).toLocaleDateString("fr-FR", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric"
+                        })}
+                      </time>
+                    )}
+                  </div>
+                </a>
+              </article>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {story.total > 1 && (
+            <nav class="pagination" aria-label="Pagination">
+              {/* Previous link */}
+              {story.url.prev ? (
+                <a href={story.url.prev} class="pagination-link">
+                  Page précédente
+                </a>
+              ) : (
+                <span class="pagination-link disabled">Page précédente</span>
+              )}
+
+              {/* Page numbers */}
+              <div class="page-numbers">
+                {Array.from({ length: story.lastPage }, (_, i) => i + 1).map((pageNum) => (
+                  <a
+                    href={`/blog/${pageNum}`}
+                    class={`page-number ${pageNum === story.currentPage ? "active" : ""}`}>
+                    {pageNum}
+                  </a>
+                ))}
+              </div>
+
+              {/* Next link */}
+              {story.url.next ? (
+                <a href={story.url.next} class="pagination-link">
+                  Page suivante
+                </a>
+              ) : (
+                <span class="pagination-link disabled">Page suivante</span>
+              )}
+            </nav>
+          )}
+        </>
+      ) : (
+        <p class="no-articles">Aucun article pour le moment.</p>
+      )
+    }
+  </div>
+</Layout>
+
+<style>
+  .blog-index {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .articles-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .article-card {
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  }
+
+  .article-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .article-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .article-image {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  .article-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .article-content {
+    padding: 1.5rem;
+  }
+
+  .article-content h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .article-excerpt {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  time {
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e5e5;
+    flex-wrap: wrap;
+  }
+
+  .pagination-link {
+    padding: 0.5rem 1rem;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+
+  .pagination-link:hover:not(.disabled) {
+    background-color: #555;
+  }
+
+  .pagination-link.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .page-numbers {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .page-number {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s ease;
+  }
+
+  .page-number:hover {
+    background-color: #f5f5f5;
+  }
+
+  .page-number.active {
+    background-color: #333;
+    color: white;
+    border-color: #333;
+  }
+
+  .no-articles {
+    text-align: center;
+    color: #666;
+    padding: 3rem;
+  }
+</style>

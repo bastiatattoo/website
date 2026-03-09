@@ -32,7 +32,8 @@ export default defineConfig({
       textImage: "components/storyblok/TextImage",
       gallery6: "components/storyblok/Gallery6",
       contact: "components/storyblok/Contact",
-      filterGallery: "components/storyblok/FilterGallery"
+      filterGallery: "components/storyblok/FilterGallery",
+      blog: "components/storyblok/Blog",
     },
     enableFallbackComponent: true,
     customFallbackComponent: "components/storyblok/StoryblokFallback",
