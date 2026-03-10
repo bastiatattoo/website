@@ -25,6 +25,12 @@ export async function getStaticPaths({ paginate }: { paginate: PaginateFunction 
     content_type: "blog"
   });
 
+  let paginatedData = paginate(data.stories, {
+    pageSize: DEFAULT_POSTS_PER_PAGE
+  });
+
+  console.log("[DEBUG] Paginated data:", paginatedData);
+
   return paginate(data.stories, {
     pageSize: DEFAULT_POSTS_PER_PAGE
   });
@@ -71,7 +77,7 @@ const seo = {
           <div class="articles-list">
             {story.data.map((article) => (
               <article class="article-card">
-                <a href={`/blog/${article.full_slug?.replace(/^blog\//, "") || article.slug}`}>
+                <a href={`/${article.full_slug}/`}>
                   {article.content.featured_image && (
                     <div class="article-image">
                       <img
@@ -116,7 +122,7 @@ const seo = {
               <div class="page-numbers">
                 {Array.from({ length: story.lastPage }, (_, i) => i + 1).map((pageNum) => (
                   <a
-                    href={`/blog/${pageNum}`}
+                    href={`/blog/${pageNum === 1 ? "" : pageNum}`}
                     class={`page-number ${pageNum === story.currentPage ? "active" : ""}`}>
                     {pageNum}
                   </a>

@@ -21,7 +21,12 @@ export async function getStaticPaths() {
     per_page: 100
   });
 
-  return data.stories.map((story) => ({
+  // Remove story with slug 'blog/' if it exists, to avoid conflicts with blog listing page
+  let filteredStories = data.stories.filter((story) => story.full_slug !== "blog/");
+  // Remove global story global (for configuration purposes only)
+  filteredStories = filteredStories.filter((story) => story.full_slug !== "global");
+
+  return filteredStories.map((story) => ({
     params: {
       slug: story.full_slug === "home" || story.full_slug === "" ? undefined : story.full_slug
     },
