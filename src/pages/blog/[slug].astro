@@ -40,6 +40,20 @@ const { story: storyFromProps } = Astro.props as Props;
 
 // SSG mode: story comes from getStaticPaths props
 let story = storyFromProps;
+// SSR mode : fetch the story with Astro.params slug
+if (!story) {
+  const sbApi = useStoryblokApi();
+  const isPreview = import.meta.env.IS_PREVIEW === true || import.meta.env.IS_PREVIEW === "true";
+  const version = isPreview ? "draft" : "published";
+
+  // Fetch all blog stories
+  const { data } = await sbApi.get(`cdn/stories/blog/${Astro.params.slug}`, {
+    version: version,
+    token: import.meta.env.STORYBLOK_TOKEN
+  });
+
+  story = data.story;
+}
 
 // Guard: If story is undefined, return 404
 if (!story) {

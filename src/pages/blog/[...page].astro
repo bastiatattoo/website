@@ -2,10 +2,7 @@
 import { useStoryblokApi } from "@storyblok/astro";
 import Layout from "../../layouts/Layout.astro";
 import type { PaginateFunction } from "astro";
-
-const storyblokApi = useStoryblokApi();
-const isPreview = import.meta.env.IS_PREVIEW === true || import.meta.env.IS_PREVIEW === "true";
-const version = isPreview ? "draft" : "published";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 
 // ============================================
 // SSG MODE: getStaticPaths with paginate()
@@ -29,8 +26,6 @@ export async function getStaticPaths({ paginate }: { paginate: PaginateFunction 
     pageSize: DEFAULT_POSTS_PER_PAGE
   });
 
-  console.log("[DEBUG] Paginated data:", paginatedData);
-
   return paginate(data.stories, {
     pageSize: DEFAULT_POSTS_PER_PAGE
   });
@@ -52,10 +47,24 @@ interface Props {
 }
 
 const { page: pageFromProps } = Astro.props as Props;
-let story;
+let story, mode;
 
-// SSG mode: story comes from getStaticPaths props
-story = pageFromProps;
+// SSR Mode
+if (!pageFromProps) {
+  mode = "SSR";
+  const sbApi = useStoryblokApi();
+  // Fetch the blog story
+  const { data } = await sbApi.get("cdn/stories/blog", {
+    version: "draft",
+    token: import.meta.env.STORYBLOK_TOKEN
+  });
+  console.log(data);
+  story = data.story;
+} else {
+  // SSG mode: story comes from getStaticPaths props
+  mode = "SSG";
+  story = pageFromProps;
+}
 
 // SSG mode: use default SEO (will be enhanced in getStaticPaths if needed)
 const seo = {
@@ -69,96 +78,84 @@ const seo = {
 ---
 
 <Layout seo={seo}>
-  <div class="blog-index">
-    <h1>Blog</h1>
-    {
-      story.data.length > 0 ? (
-        <>
-          <div class="articles-list">
-            {story.data.map((article) => (
-              <article class="article-card">
-                <a href={`/${article.full_slug}/`}>
-                  {article.content.featured_image && (
-                    <div class="article-image">
-                      <img
-                        src={article.content.featured_image.filename}
-                        alt={article.content.featured_image.alt || article.content.title}
-                      />
-                    </div>
-                  )}
-                  <div class="article-content">
-                    <h2>{article.content.title}</h2>
-                    {article.content.description && (
-                      <p class="article-excerpt">{article.content.description}</p>
-                    )}
-                    {article.first_published_at && (
-                      <time datetime={article.first_published_at}>
-                        {new Date(article.first_published_at).toLocaleDateString("fr-FR", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric"
-                        })}
-                      </time>
-                    )}
+  {
+    mode === "SSG" && story.data.length > 0 ? (
+      <>
+        <div class="articles-list">
+          {story.data.map((article) => (
+            <article class="article-card">
+              <a href={`/${article.full_slug}/`}>
+                {article.content.featured_image && (
+                  <div class="article-image">
+                    <img
+                      src={article.content.featured_image.filename}
+                      alt={article.content.featured_image.alt || article.content.title}
+                    />
                   </div>
-                </a>
-              </article>
-            ))}
-          </div>
+                )}
+                <div class="article-content">
+                  <h2>{article.content.title}</h2>
+                  {article.content.description && (
+                    <p class="article-excerpt">{article.content.description}</p>
+                  )}
+                  {article.first_published_at && (
+                    <time datetime={article.first_published_at}>
+                      {new Date(article.first_published_at).toLocaleDateString("fr-FR", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric"
+                      })}
+                    </time>
+                  )}
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
 
-          {/* Pagination */}
-          {story.total > 1 && (
-            <nav class="pagination" aria-label="Pagination">
-              {/* Previous link */}
-              {story.url.prev ? (
-                <a href={story.url.prev} class="pagination-link">
-                  Page précédente
-                </a>
-              ) : (
-                <span class="pagination-link disabled">Page précédente</span>
-              )}
+        {/* Pagination */}
+        {story.total > 1 && (
+          <nav class="pagination" aria-label="Pagination">
+            {/* Previous link */}
+            {story.url.prev ? (
+              <a href={story.url.prev} class="pagination-link">
+                Page précédente
+              </a>
+            ) : (
+              <span class="pagination-link disabled">Page précédente</span>
+            )}
 
-              {/* Page numbers */}
-              <div class="page-numbers">
-                {Array.from({ length: story.lastPage }, (_, i) => i + 1).map((pageNum) => (
-                  <a
-                    href={`/blog/${pageNum === 1 ? "" : pageNum}`}
-                    class={`page-number ${pageNum === story.currentPage ? "active" : ""}`}>
-                    {pageNum}
-                  </a>
-                ))}
-              </div>
-
-              {/* Next link */}
-              {story.url.next ? (
-                <a href={story.url.next} class="pagination-link">
-                  Page suivante
+            {/* Page numbers */}
+            <div class="page-numbers">
+              {Array.from({ length: story.lastPage }, (_, i) => i + 1).map((pageNum) => (
+                <a
+                  href={`/blog/${pageNum === 1 ? "" : pageNum}`}
+                  class={`page-number ${pageNum === story.currentPage ? "active" : ""}`}>
+                  {pageNum}
                 </a>
-              ) : (
-                <span class="pagination-link disabled">Page suivante</span>
-              )}
-            </nav>
-          )}
-        </>
-      ) : (
-        <p class="no-articles">Aucun article pour le moment.</p>
-      )
-    }
-  </div>
+              ))}
+            </div>
+
+            {/* Next link */}
+            {story.url.next ? (
+              <a href={story.url.next} class="pagination-link">
+                Page suivante
+              </a>
+            ) : (
+              <span class="pagination-link disabled">Page suivante</span>
+            )}
+          </nav>
+        )}
+      </>
+    ) : mode === "SSR" ? (
+      <StoryblokComponent blok={story.content} />
+    ) : (
+      <p class="no-articles">Aucun article pour le moment.</p>
+    )
+  }
 </Layout>
 
 <style>
-  .blog-index {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-  }
-
   .articles-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
