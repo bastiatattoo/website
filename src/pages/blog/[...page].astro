@@ -1,6 +1,7 @@
 ---
 import { useStoryblokApi } from "@storyblok/astro";
 import Layout from "../../layouts/Layout.astro";
+import Wrapper from "../../components/fundations/containers/Wrapper.astro";
 import type { PaginateFunction } from "astro";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 
@@ -47,23 +48,34 @@ interface Props {
 }
 
 const { page: pageFromProps } = Astro.props as Props;
-let story, mode;
+let blogstory, paginatedData;
+
+const sbApi = useStoryblokApi();
+const isPreview = import.meta.env.IS_PREVIEW === true || import.meta.env.IS_PREVIEW === "true";
+// Fetch the blog story
+const { data } = await sbApi.get("cdn/stories/blog", {
+  version: isPreview ? "draft" : "published",
+  token: import.meta.env.STORYBLOK_TOKEN
+});
+blogstory = data.story;
 
 // SSR Mode
 if (!pageFromProps) {
-  mode = "SSR";
-  const sbApi = useStoryblokApi();
-  // Fetch the blog story
-  const { data } = await sbApi.get("cdn/stories/blog", {
-    version: "draft",
-    token: import.meta.env.STORYBLOK_TOKEN
+  const { data } = await sbApi.get("cdn/stories", {
+    version: isPreview ? "draft" : "published",
+    token: import.meta.env.STORYBLOK_TOKEN,
+    starts_with: "blog/",
+    per_page: 6,
+    sort_by: "first_published_at:desc",
+    content_type: "blog"
   });
-  console.log(data);
-  story = data.story;
+  paginatedData = {
+    data: data.stories,
+    total: 2
+  };
 } else {
   // SSG mode: story comes from getStaticPaths props
-  mode = "SSG";
-  story = pageFromProps;
+  paginatedData = pageFromProps;
 }
 
 // SSG mode: use default SEO (will be enhanced in getStaticPaths if needed)
@@ -78,11 +90,12 @@ const seo = {
 ---
 
 <Layout seo={seo}>
+  <StoryblokComponent blok={blogstory.content} />
   {
-    mode === "SSG" && story.data.length > 0 ? (
-      <>
+    paginatedData.data.length > 0 && (
+      <Wrapper variant="standard" class="py-12">
         <div class="articles-list">
-          {story.data.map((article) => (
+          {paginatedData.data.map((article) => (
             <article class="article-card">
               <a href={`/${article.full_slug}/`}>
                 {article.content.featured_image && (
@@ -114,11 +127,11 @@ const seo = {
         </div>
 
         {/* Pagination */}
-        {story.total > 1 && (
+        {paginatedData.total > 1 && (
           <nav class="pagination" aria-label="Pagination">
             {/* Previous link */}
-            {story.url.prev ? (
-              <a href={story.url.prev} class="pagination-link">
+            {paginatedData.url?.prev ? (
+              <a href={paginatedData.url?.prev} class="pagination-link">
                 Page précédente
               </a>
             ) : (
@@ -127,18 +140,18 @@ const seo = {
 
             {/* Page numbers */}
             <div class="page-numbers">
-              {Array.from({ length: story.lastPage }, (_, i) => i + 1).map((pageNum) => (
+              {Array.from({ length: paginatedData.lastPage }, (_, i) => i + 1).map((pageNum) => (
                 <a
                   href={`/blog/${pageNum === 1 ? "" : pageNum}`}
-                  class={`page-number ${pageNum === story.currentPage ? "active" : ""}`}>
+                  class={`page-number ${pageNum === paginatedData.currentPage ? "active" : ""}`}>
                   {pageNum}
                 </a>
               ))}
             </div>
 
             {/* Next link */}
-            {story.url.next ? (
-              <a href={story.url.next} class="pagination-link">
+            {paginatedData.url?.next ? (
+              <a href={paginatedData.url?.next} class="pagination-link">
                 Page suivante
               </a>
             ) : (
@@ -146,11 +159,7 @@ const seo = {
             )}
           </nav>
         )}
-      </>
-    ) : mode === "SSR" ? (
-      <StoryblokComponent blok={story.content} />
-    ) : (
-      <p class="no-articles">Aucun article pour le moment.</p>
+      </Wrapper>
     )
   }
 </Layout>
