@@ -11,7 +11,7 @@ const { blok } = Astro.props;
 const services = blok.list;
 ---
 
-<section class="overflow-hidden">
+<section class="servicePreview overflow-hidden">
   <Wrapper variant="wide" class="py-4">
     <div class="relative h-full min-h-screen overflow-hidden rounded-3xl">
       <div>
@@ -55,13 +55,17 @@ const services = blok.list;
                 ))
               }
             </div>
-            <Text
-              tag="p"
-              variant="textBase"
-              class="text-base-600 mt-8 text-balance"
-              id="active-description">
-              {services[0].description}
-            </Text>
+            {
+              services.map((item, index) => (
+                <Text
+                  tag="p"
+                  variant="textBase"
+                  class={`text-base-600 mt-8 text-balance ${index !== 0 ? "hidden" : ""}`}
+                  id={`service-description-${index}`}>
+                  {services[index].description}
+                </Text>
+              ))
+            }
           </div>
           {
             blok.linkUrl.story?.full_slug && (
@@ -77,27 +81,35 @@ const services = blok.list;
     </div>
   </Wrapper>
 </section>
-<script define:vars={{ services }}>
-  window.services = services;
-  const buttons = document.querySelectorAll("[data-service-index]");
-  const images = document.querySelectorAll("[id^='service-image-']");
-  const descriptionEl = document.getElementById("active-description");
-  buttons.forEach((button, index) => {
-    button.addEventListener("click", () => {
-      // Update active tab
-      buttons.forEach((btn, i) => {
-        if (i === index) {
-          btn.classList.remove("opacity-50");
-        } else {
-          btn.classList.add("opacity-50");
-        }
+
+<script>
+  const allServicePreview = document.querySelectorAll(".servicePreview");
+  allServicePreview.forEach((cmp) => {
+    const buttons = cmp.querySelectorAll("[data-service-index]");
+    const images = cmp.querySelectorAll("[id^='service-image-']");
+    const descriptions = cmp.querySelectorAll("[id^='service-description-']");
+    buttons.forEach((button, index) => {
+      button.addEventListener("click", () => {
+        // Update active tab
+        buttons.forEach((btn, i) => {
+          if (i === index) {
+            btn.classList.remove("opacity-50");
+          } else {
+            btn.classList.add("opacity-50");
+          }
+        });
+        // Update visible image
+        images.forEach((img, i) => {
+          img.style.display = i === index ? "block" : "none";
+        });
+        // Update description
+        descriptions.forEach((desc, i) => {
+          desc.classList =
+            i === index
+              ? "text-base-600 mt-8 text-balance"
+              : "text-base-600 mt-8 text-balance hidden";
+        });
       });
-      // Update visible image
-      images.forEach((img, i) => {
-        img.style.display = i === index ? "block" : "none";
-      });
-      // Update description
-      descriptionEl.textContent = window.services[index].description;
     });
   });
 </script>
