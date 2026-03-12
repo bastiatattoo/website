@@ -16,17 +16,21 @@ const services = blok.list;
     <div class="relative h-full min-h-screen overflow-hidden rounded-3xl">
       <div>
         {
-          services.map((item, index) => (
-            <Image
-              id={`service-image-${index}`}
-              src={item.image.filename}
-              alt={item.image.alt}
-              width={1440}
-              height={1440}
-              class="absolute inset-0 size-full object-cover object-center"
-              style={`display: ${index === 0 ? "block" : "none"}`}
-            />
-          ))
+          services.map((item, index) => {
+            if (item.image?.filename) {
+              return (
+                <Image
+                  id={`service-image-${index}`}
+                  src={item.image.filename}
+                  alt={item.image.alt || " "}
+                  width={1440}
+                  height={1440}
+                  class="absolute inset-0 size-full object-cover object-center"
+                  style={`display: ${index === 0 ? "block" : "none"}`}
+                />
+              );
+            }
+          })
         }
       </div>
       <div class="relative flex h-full flex-col lg:ml-auto lg:max-w-xl">

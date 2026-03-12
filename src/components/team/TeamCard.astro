@@ -1,26 +1,29 @@
 ---
 // Assets
-import { Image } from 'astro:assets'
+import { Image } from "astro:assets";
 // Fundations
-import Text from '@/components/fundations/elements/Text.astro'
+import Text from "@/components/fundations/elements/Text.astro";
 const { url, name, image, role } = {
-  url: '/team/' + Astro.props.post.slug,
+  url: "/team/" + Astro.props.post.slug,
   name: Astro.props.post.data.name,
   role: Astro.props.post.data.role,
   image: Astro.props.post.data.image.url
-}
+};
 ---
 
-<article class="relative flex flex-col group">
-  <a href={url} title={`View profile for ${name}`} aria-label={`View profile for ${name}`} class="absolute inset-0 z-10"
-  ></a>
+<article class="group relative flex flex-col">
+  <a
+    href={url}
+    title={`View profile for ${name}`}
+    aria-label={`View profile for ${name}`}
+    class="absolute inset-0 z-10"></a>
 
   <Image
     width="1000"
     height="1000"
     src={image}
-    alt={name}
-    class="object-cover object-center w-full aspect-square rounded-2xl"
+    alt={name || " "}
+    class="aspect-square w-full rounded-2xl object-cover object-center"
   />
 
   <div class="py-4">

@@ -34,6 +34,7 @@ export default defineConfig({
       contact: "components/storyblok/Contact",
       filterGallery: "components/storyblok/FilterGallery",
       blog: "components/storyblok/Blog",
+      button: "components/storyblok/Button"
     },
     enableFallbackComponent: true,
     customFallbackComponent: "components/storyblok/StoryblokFallback",

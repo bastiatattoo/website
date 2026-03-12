@@ -37,7 +37,7 @@ const { blok } = Astro.props;
               </div>
               <Image
                 src={step.image.filename}
-                alt={step.image.alt}
+                alt={step.image.alt || " "}
                 width={500}
                 height={500}
                 loading="eager"

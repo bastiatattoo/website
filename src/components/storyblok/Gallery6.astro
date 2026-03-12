@@ -20,70 +20,94 @@ const { blok } = Astro.props;
             {blok.intro}
           </Text>
         </div>
-        <img
-          src={blok.images[0].filename}
-          alt={blok.images[0].alt}
-          loading="lazy"
-          decoding="async"
-          fetchpriority="auto"
-          width="500"
-          height="500"
-          class="size-full rounded-xl object-cover"
-        />
+        {
+          blok.images[0]?.filename && (
+            <img
+              src={blok.images[0].filename}
+              alt={blok.images[0]?.alt || " "}
+              loading="lazy"
+              decoding="async"
+              fetchpriority="auto"
+              width="500"
+              height="500"
+              class="size-full rounded-xl object-cover"
+            />
+          )
+        }
       </div>
       <div class="flex flex-col gap-4 sm:col-span-2 lg:col-span-1">
-        <img
-          src={blok.images[1].filename}
-          alt={blok.images[1].alt}
-          loading="lazy"
-          decoding="async"
-          fetchpriority="auto"
-          width="500"
-          height="500"
-          class="size-full rounded-xl object-cover"
-        />
-        <img
-          src={blok.images[2].filename}
-          alt={blok.images[2].alt}
-          loading="lazy"
-          decoding="async"
-          fetchpriority="auto"
-          width="500"
-          height="500"
-          class="size-full rounded-xl object-cover"
-        />
+        {
+          blok.images[1]?.filename && (
+            <img
+              src={blok.images[1].filename}
+              alt={blok.images[1]?.alt || " "}
+              loading="lazy"
+              decoding="async"
+              fetchpriority="auto"
+              width="500"
+              height="500"
+              class="size-full rounded-xl object-cover"
+            />
+          )
+        }
+        {
+          blok.images[2]?.filename && (
+            <img
+              src={blok.images[2].filename}
+              alt={blok.images[2]?.alt || " "}
+              loading="lazy"
+              decoding="async"
+              fetchpriority="auto"
+              width="500"
+              height="500"
+              class="size-full rounded-xl object-cover"
+            />
+          )
+        }
       </div>
       <div class="flex flex-col gap-4 sm:col-span-2 lg:col-span-1">
-        <img
-          src={blok.images[3].filename}
-          alt={blok.images[3].alt}
-          loading="lazy"
-          decoding="async"
-          fetchpriority="auto"
-          width="500"
-          height="500"
-          class="aspect-square size-full rounded-xl object-cover object-top"
-        />
-        <img
-          src={blok.images[4].filename}
-          alt={blok.images[4].alt}
-          loading="lazy"
-          decoding="async"
-          fetchpriority="auto"
-          width="500"
-          height="500"
-          class="aspect-square size-full rounded-xl object-cover object-top"
-        />
-        <img
-          src={blok.images[5].filename}
-          alt={blok.images[5].alt}
-          loading="lazy"
-          decoding="async"
-          fetchpriority="auto"
-          width="500"
-          height="500"
-          class="aspect-square size-full rounded-xl object-cover object-top"
-        />
+        {
+          blok.images[3]?.filename && (
+            <img
+              src={blok.images[3].filename}
+              alt={blok.images[3]?.alt || " "}
+              loading="lazy"
+              decoding="async"
+              fetchpriority="auto"
+              width="500"
+              height="500"
+              class="aspect-square size-full rounded-xl object-cover object-top"
+            />
+          )
+        }
+        {
+          blok.images[4]?.filename && (
+            <img
+              src={blok.images[4].filename}
+              alt={blok.images[4]?.alt || " "}
+              loading="lazy"
+              decoding="async"
+              fetchpriority="auto"
+              width="500"
+              height="500"
+              class="aspect-square size-full rounded-xl object-cover object-top"
+            />
+          )
+        }
+        {
+          blok.images[5]?.filename && (
+            <img
+              src={blok.images[5].filename}
+              alt={blok.images[5]?.alt || " "}
+              loading="lazy"
+              decoding="async"
+              fetchpriority="auto"
+              width="500"
+              height="500"
+              class="aspect-square size-full rounded-xl object-cover object-top"
+            />
+          )
+        }
       </div>
     </div>
   </Wrapper>

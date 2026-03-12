@@ -9,7 +9,7 @@ const { post } = Astro.props;
 <article class="group keen-slider__slide relative flex flex-col">
   <Image
     src={post.image.filename}
-    alt={post.image.alt}
+    alt={post.image.alt || " "}
     width={1000}
     height={1000}
     class="aspect-square h-full w-full rounded-xl object-cover object-center lg:aspect-4/2"

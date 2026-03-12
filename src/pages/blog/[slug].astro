@@ -86,7 +86,7 @@ const seo = {
           height={1080}
           loading="eager"
           decoding="async"
-          alt={story.content?.featured_image?.alt}
+          alt={story.content?.featured_image?.alt || " "}
           src={story.content?.featured_image?.filename}
           class="absolute inset-0 size-full object-cover object-center"
         />
