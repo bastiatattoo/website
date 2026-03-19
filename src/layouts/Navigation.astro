@@ -9,32 +9,43 @@ import DotsThree from "../components/fundations/icons/DotsThree.astro";
 import DotsNine from "../components/fundations/icons/DotsNine.astro";
 // Storyblok
 import { useStoryblokApi } from "@storyblok/astro";
-import { cp } from "fs";
 const storyblokApi = useStoryblokApi();
 
-let nav, rels, socials, contacts;
+let navItems, socials, contacts;
 try {
   const { data } = await storyblokApi.get(`cdn/stories/global`, {
     version: "draft",
-    token: import.meta.env.STORYBLOK_TOKEN,
-    resolve_relations: "pages"
+    token: import.meta.env.STORYBLOK_TOKEN
   });
-  rels = data.rels;
-  nav = data.story.content.nav;
+  const navUuids = data.story.content.nav; // array of UUIDs
+
+  // Fetch each story by UUID and collect name and full_slug
+  navItems = [];
+  for (const uuid of navUuids) {
+    const { data: storyData } = await storyblokApi.get(`cdn/stories/${uuid}`, {
+      version: "draft",
+      token: import.meta.env.STORYBLOK_TOKEN
+    });
+    navItems.push({
+      name: storyData.story.content.name,
+      full_slug: storyData.story.full_slug
+    });
+  }
+
   socials = data.story.content.socials;
   contacts = data.story.content.contacts;
-} catch (error) {
-  console.error("[DEBUG] Storyblok API error:", error.message);
+} catch (error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  console.error("[DEBUG] Storyblok API error:", message);
+  // Set defaults in case of error?
+  navItems = [];
+  socials = [];
+  contacts = [];
 }
-const navSorted = nav.map((page) => {
-  const rel = rels.find((r) => r.uuid === page);
-  return {
-    name: rel.name,
-    full_slug: rel.full_slug
-  };
-});
 
-contacts = contacts.map((contact) => {
+const navSorted = navItems;
+
+contacts = contacts.map((contact: any) => {
   return {
     content: contact.content,
     url: contact.isTel
@@ -59,7 +70,7 @@ const navGroups = [
   {
     title: "Connect",
     type: "external",
-    items: socials.map((social) => ({
+    items: socials.map((social: any) => ({
       href: social.url,
       label: social.name
     }))
@@ -103,13 +114,13 @@ const navGroups = [
         class="h-0 overflow-hidden transition-[height] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]">
         <div class="bg-base-50 grid grid-cols-1 gap-4 rounded-xl p-4 sm:grid-cols-2">
           {
-            navGroups.map((group) => (
+            navGroups.map((group: any) => (
               <div class="space-y-3">
                 <Text tag="h3" variant="textLG" class="text-base-900">
                   {group.title}
                 </Text>
                 <div class="space-y-1">
-                  {group.items?.map((item) => (
+                  {group.items?.map((item: any) => (
                     <a
                       href={item.href}
                       class="text-base-500 hover:text-base-900 block text-base tracking-wide transition-colors focus:outline-none"
@@ -126,7 +137,7 @@ const navGroups = [
         <div
           class="bg-base-50 mt-1 flex flex-col justify-between gap-2 rounded-xl p-4 lg:items-center">
           {
-            contacts.map((contact) =>
+            contacts.map((contact: any) =>
               contact.isTel ? (
                 <Text tag="p" variant="textLG" class="text-base-900">
                   <span class="sr-only">Téléphone:</span>
