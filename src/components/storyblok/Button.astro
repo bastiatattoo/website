@@ -2,8 +2,12 @@
 import Wrapper from "../fundations/containers/Wrapper.astro";
 import RollingLink from "../fundations/elements/RollingLink.astro";
 const { blok } = Astro.props;
+console.log(blok);
 ---
 
-<Wrapper>
-  <RollingLink href={blok.href} initialText={blok.text} />
+<Wrapper variant="paddingless">
+  <RollingLink
+    href={blok.href.story.slug === "home" ? "" : blok.href.story.slug}
+    initialText={blok.text}
+  />
 </Wrapper>

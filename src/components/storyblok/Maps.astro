@@ -1,0 +1,68 @@
+---
+import { storyblokEditable } from "@storyblok/astro";
+import Wrapper from "../fundations/containers/Wrapper.astro";
+import RichTextRenderer from "storyblok-rich-text-astro-renderer/RichTextRenderer.astro";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+
+import { Leaflet, CreateLeafletIcon } from "astro-leaflet";
+import type { AstroLeafletOptionsType, AstroLeafletMarkerType } from "astro-leaflet";
+
+const markers: AstroLeafletMarkerType[] = [];
+markers.push({
+  latlng: [42.69215070135336, 9.449955441362901],
+  options: { title: "Bastia Tattoo" },
+  astroIconName: "myicon-name"
+});
+
+const options: AstroLeafletOptionsType = {
+  // tileByName: "Google&type=hybrid"
+  tileLayer: "https://{s}.google.com/vt/lyrs=s,h&hl=en&x={x}&y={y}&z={z}",
+  tileLayerOptions: {
+    subdomains: ["mt0", "mt1", "mt2", "mt3"],
+    attribution: "Map data &copy; Google"
+  },
+  center: [42.69215070135336, 9.449955441362901],
+  zoom: 17,
+  markers: markers
+};
+
+const { blok } = Astro.props;
+---
+
+<section class="maps" {...storyblokEditable(blok)}>
+  <Wrapper variant="standard" class="py-12 lg:py-24">
+    <div class="relative z-[0] flex flex-col justify-center gap-8 lg:flex-row">
+      <div class="min-w-75 shrink basis-full overflow-clip rounded-xl lg:basis-2/5">
+        <CreateLeafletIcon
+          name="myicon-name"
+          options={{ className: "leaflet-icon-myicon", iconSize: [30, 30] }}
+        />
+        <Leaflet options={options} />
+      </div>
+      {
+        blok?.text && (
+          <div class="textLG text-base-600 withList prose mt-8 shrink">
+            <RichTextRenderer
+              content={blok.text}
+              resolver={(blok) => {
+                return {
+                  component: StoryblokComponent,
+                  props: { blok }
+                };
+              }}
+            />
+          </div>
+        )
+      }
+    </div>
+  </Wrapper>
+</section>
+
+<style is:global>
+  /* class definition used to define the custom icon */
+  .leaflet-icon-myicon {
+    background: red;
+    border: 5px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+  }
+</style>

@@ -1,4 +1,6 @@
 ---
+import { storyblokEditable } from "@storyblok/astro";
+
 const { blok } = Astro.props;
 
 const allFilters = blok.images.map((image) => image["filter"]).flat();
@@ -16,7 +18,7 @@ const items = blok.images.map((image) => ({
 }));
 ---
 
-<div data-filter-group="" role="group" class="filter-group">
+<div {...storyblokEditable(blok)} data-filter-group="" role="group" class="filter-group">
   <div class="filter-buttons">
     {
       filters.map((filter) => (

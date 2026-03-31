@@ -10,13 +10,15 @@ import ProjectCard from "../projects/ProjectCard.astro";
 // Icons
 import ArrowLeft from "../fundations/icons/ArrowLeft.astro";
 import ArrowRight from "../fundations/icons/ArrowRight.astro";
+import { storyblokEditable } from "@storyblok/astro";
+
 // Content
 
 const { blok } = Astro.props;
 const projects = blok.projects;
 ---
 
-<section class="overflow-hidden">
+<section class="overflow-hidden" {...storyblokEditable(blok)}>
   <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-12">
     <div>
       <Kicker copy={blok.tagline} />

@@ -6,12 +6,13 @@ import Text from "../fundations/elements/Text.astro";
 import Kicker from "../fundations/elements/Kicker.astro";
 import Wrapper from "../fundations/containers/Wrapper.astro";
 import RollingLink from "../fundations/elements/RollingLink.astro";
+import { storyblokEditable } from "@storyblok/astro";
 
 const { blok } = Astro.props;
 const services = blok.list;
 ---
 
-<section class="servicePreview overflow-hidden">
+<section class="servicePreview overflow-hidden" {...storyblokEditable(blok)}>
   <Wrapper variant="wide" class="py-4">
     <div class="relative h-full min-h-screen overflow-hidden rounded-3xl">
       <div>

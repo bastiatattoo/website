@@ -19,15 +19,15 @@ try {
   });
   const navUuids = data.story.content.nav; // array of UUIDs
 
-  // Fetch each story by UUID and collect name and full_slug
   navItems = [];
   for (const uuid of navUuids) {
     const { data: storyData } = await storyblokApi.get(`cdn/stories/${uuid}`, {
       version: "draft",
-      token: import.meta.env.STORYBLOK_TOKEN
+      token: import.meta.env.STORYBLOK_TOKEN,
+      find_by: "uuid"
     });
     navItems.push({
-      name: storyData.story.content.name,
+      name: storyData.story.name,
       full_slug: storyData.story.full_slug
     });
   }
@@ -35,8 +35,9 @@ try {
   socials = data.story.content.socials;
   contacts = data.story.content.contacts;
 } catch (error: unknown) {
-  const message = error instanceof Error ? error.message : String(error);
-  console.error("[DEBUG] Storyblok API error:", message);
+  console.error("[DEBUG] Storyblok API error:", error.message);
+  console.log(error);
+
   // Set defaults in case of error?
   navItems = [];
   socials = [];
@@ -81,7 +82,7 @@ const navGroups = [
 <header class="pointer-events-none fixed top-8 z-100 w-full">
   <Wrapper variant="wide">
     <nav
-      class="bg-base-50 pointer-events-auto mx-4 flex items-center justify-between gap-2 rounded-xl p-4 lg:max-w-sm">
+      class="bg-base-200 pointer-events-auto mx-4 flex items-center justify-between gap-2 rounded-xl p-4 lg:max-w-sm">
       <a href="/">
         <Logo
           class="text-base-900 text-base font-semibold tracking-tighter uppercase transition-colors focus:outline-none"
@@ -112,7 +113,7 @@ const navGroups = [
       <div
         id="mobile-menu-inner"
         class="h-0 overflow-hidden transition-[height] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]">
-        <div class="bg-base-50 grid grid-cols-1 gap-4 rounded-xl p-4 sm:grid-cols-2">
+        <div class="bg-base-200 grid grid-cols-1 gap-4 rounded-xl p-4 sm:grid-cols-2">
           {
             navGroups.map((group: any) => (
               <div class="space-y-3">
@@ -135,7 +136,7 @@ const navGroups = [
           }
         </div>
         <div
-          class="bg-base-50 mt-1 flex flex-col justify-between gap-2 rounded-xl p-4 lg:items-center">
+          class="bg-base-200 mt-1 flex flex-col justify-between gap-2 rounded-xl p-4 lg:items-center">
           {
             contacts.map((contact: any) =>
               contact.isTel ? (

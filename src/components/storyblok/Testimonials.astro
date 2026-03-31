@@ -8,11 +8,12 @@ import Button from "../fundations/elements/Button.astro";
 // Icons
 import ArrowLeft from "../fundations/icons/ArrowLeft.astro";
 import ArrowRight from "../fundations/icons/ArrowRight.astro";
+import { storyblokEditable } from "@storyblok/astro";
 
 const { blok } = Astro.props;
 ---
 
-<section class="overflow-hidden">
+<section class="overflow-hidden" {...storyblokEditable(blok)}>
   <Wrapper variant="paddingless" class="py-12">
     <div class="grid grid-cols-1 items-start gap-4 gap-y-4 lg:grid-cols-3 xl:ml-8">
       <div

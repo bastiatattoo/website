@@ -1,11 +1,12 @@
 ---
 import Wrapper from "../fundations/containers/Wrapper.astro";
+import { storyblokEditable } from "@storyblok/astro";
 import Text from "../fundations/elements/Text.astro";
 
 const { blok } = Astro.props;
 ---
 
-<section>
+<section {...storyblokEditable(blok)}>
   <Wrapper variant="standard" class="py-12">
     <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
       <div>

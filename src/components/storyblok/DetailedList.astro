@@ -1,6 +1,8 @@
 ---
 // Assets
 import { Image } from "astro:assets";
+import { storyblokEditable } from "@storyblok/astro";
+
 // Fundations
 import Text from "../fundations/elements/Text.astro";
 import Kicker from "../fundations/elements/Kicker.astro";
@@ -9,7 +11,7 @@ import Wrapper from "../fundations/containers/Wrapper.astro";
 const { blok } = Astro.props;
 ---
 
-<section>
+<section {...storyblokEditable(blok)}>
   <Wrapper variant="standard" class="py-12 lg:py-24">
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
       <div>

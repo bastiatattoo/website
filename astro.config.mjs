@@ -18,6 +18,9 @@ export default defineConfig({
   }),
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['astro-leaflet > leaflet'],
+    }
   },
   integrations: [storyblok({
     accessToken: import.meta.env.STORYBLOK_TOKEN || "your_token_here",
@@ -34,7 +37,9 @@ export default defineConfig({
       contact: "components/storyblok/Contact",
       filterGallery: "components/storyblok/FilterGallery",
       blog: "components/storyblok/Blog",
-      button: "components/storyblok/Button"
+      button: "components/storyblok/Button",
+      faq: "components/storyblok/Faq",
+      maps: "components/storyblok/Maps"
     },
     enableFallbackComponent: true,
     customFallbackComponent: "components/storyblok/StoryblokFallback",
