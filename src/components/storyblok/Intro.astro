@@ -17,7 +17,7 @@ const { blok } = Astro.props;
 
 <section class="intro" {...storyblokEditable(blok)}>
   <Wrapper variant="standard">
-    <div class="display2XL text-base-900 prose font-medium tracking-tight">
+    <div class="display2XL text-base-900 no-heading font-medium tracking-tight">
       <RichTextRenderer
         content={blok.text}
         resolver={(blok) => {
