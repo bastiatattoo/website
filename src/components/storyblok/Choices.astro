@@ -1,0 +1,151 @@
+---
+import { storyblokEditable } from "@storyblok/astro";
+import RichTextRenderer from "storyblok-rich-text-astro-renderer/RichTextRenderer.astro";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+const { blok } = Astro.props;
+console.log(blok.choices[0]);
+---
+
+<section {...storyblokEditable(blok)} class="feature-v9">
+  <div class="grid grid-cols-12">
+    <div
+      class="feature-v9__block col-span-12 lg:col-span-6"
+      style=`background-image: url(${blok.choices[0].image.filename});`>
+      <div class="feature-v9__content max-w-md text-center">
+        <div>
+          <RichTextRenderer
+            content={blok.choices[0].text}
+            resolver={(blok) => {
+              return {
+                component: StoryblokComponent,
+                props: { blok }
+              };
+            }}
+          />
+        </div>
+
+        <div class="mt-3 lg:mt-5">
+          <a class="feature-v9__link" href={`/${blok.choices[0].link.story.full_slug}`}
+            >{blok.choices[0].buttonText}</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="feature-v9__block col-span-12 lg:col-span-6"
+      style=`background-image: url(${blok.choices[1].image.filename});`>
+      <div class="feature-v9__content max-w-md text-center">
+        <div>
+          <RichTextRenderer
+            content={blok.choices[1].text}
+            resolver={(blok) => {
+              return {
+                component: StoryblokComponent,
+                props: { blok }
+              };
+            }}
+          />
+        </div>
+
+        <div class="mt-3 lg:mt-5">
+          <a class="feature-v9__link" href={`/${blok.choices[1].link.story.full_slug}`}
+            >{blok.choices[1].buttonText}</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @reference "../../styles/global.css";
+  /* --------------------------------
+
+File#: _1_feature-v9
+Title: Feature v9
+Descr: A feature section with 2 blocks
+Usage: codyhouse.co/license
+
+-------------------------------- */
+  .feature-v9:hover .feature-v9__block:not(:hover) .feature-v9__content {
+    opacity: 0.5;
+  }
+  .feature-v9:hover .feature-v9__block:not(:hover)::after {
+    @apply bg-gray-900/80;
+    backdrop-filter: grayscale(100%);
+  }
+
+  .feature-v9__block {
+    position: relative;
+    display: flex;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    @apply px-5 py-12 lg:px-8 lg:py-20;
+    min-height: 350px;
+  }
+  .feature-v9__block::before,
+  .feature-v9__block::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transition: 0.2s;
+  }
+  .feature-v9__block::before {
+    height: 70%;
+    background: linear-gradient(hsl(221 39% 11% / 0), hsl(221 39% 11% / 0.8));
+    mix-blend-mode: multiply;
+  }
+  .feature-v9__block::after {
+    height: 100%;
+    @apply bg-gray-900/0;
+  }
+  .feature-v9__block:hover .feature-v9__content {
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+  @media (min-width: 48rem) {
+    .feature-v9__block {
+      min-height: 450px;
+    }
+  }
+  @media (min-width: 64rem) {
+    .feature-v9__block {
+      min-height: 600px;
+    }
+  }
+  @media (min-width: 80rem) {
+    .feature-v9__block {
+      min-height: 700px;
+    }
+  }
+
+  .feature-v9__content {
+    position: relative;
+    z-index: 2;
+    @apply text-white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: auto auto 0;
+    transition: 0.2s;
+  }
+
+  .feature-v9__link {
+    @apply text-gray-900;
+    text-decoration: none;
+    display: inline-block;
+    @apply px-5 py-2 lg:px-8 lg:py-3;
+    @apply bg-white/80;
+    @apply rounded-lg;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    transition: background-color 0.2s;
+  }
+  .feature-v9__link:hover {
+    @apply bg-white/100;
+  }
+</style>

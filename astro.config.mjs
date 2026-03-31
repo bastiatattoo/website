@@ -39,7 +39,8 @@ export default defineConfig({
       blog: "components/storyblok/Blog",
       button: "components/storyblok/Button",
       faq: "components/storyblok/Faq",
-      maps: "components/storyblok/Maps"
+      maps: "components/storyblok/Maps",
+      choices: "components/storyblok/Choices"
     },
     enableFallbackComponent: true,
     customFallbackComponent: "components/storyblok/StoryblokFallback",
