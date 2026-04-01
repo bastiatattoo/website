@@ -3,7 +3,6 @@ import { storyblokEditable } from "@storyblok/astro";
 import RichTextRenderer from "storyblok-rich-text-astro-renderer/RichTextRenderer.astro";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 const { blok } = Astro.props;
-console.log(blok.choices[0]);
 ---
 
 <section {...storyblokEditable(blok)} class="feature-v9">
