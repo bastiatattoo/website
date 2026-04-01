@@ -37,15 +37,17 @@ const { blok } = Astro.props;
                   {step.description}
                 </Text>
               </div>
-              <Image
-                src={step.image.filename}
-                alt={step.image.alt || " "}
-                width={500}
-                height={500}
-                loading="eager"
-                decoding="async"
-                class="h-48 w-full rounded-xl object-cover"
-              />
+              {step.image?.filename && (
+                <Image
+                  src={step.image.filename}
+                  alt={step.image.alt || " "}
+                  width={500}
+                  height={500}
+                  loading="eager"
+                  decoding="async"
+                  class="h-48 w-full rounded-xl object-cover"
+                />
+              )}
             </div>
           ))
         }
