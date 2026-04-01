@@ -8,53 +8,61 @@ console.log(blok.choices[0]);
 
 <section {...storyblokEditable(blok)} class="feature-v9">
   <div class="grid grid-cols-12">
-    <div
-      class="feature-v9__block col-span-12 lg:col-span-6"
-      style=`background-image: url(${blok.choices[0].image.filename});background-size: contain;`>
-      <div class="feature-v9__content max-w-md text-center">
-        <div>
-          <RichTextRenderer
-            content={blok.choices[0].text}
-            resolver={(blok) => {
-              return {
-                component: StoryblokComponent,
-                props: { blok }
-              };
-            }}
-          />
-        </div>
+    {
+      blok.choices[0]?.image && (
+        <div
+          class="feature-v9__block col-span-12 lg:col-span-6"
+          style={`background-image: url(${blok.choices[0].image.filename});`}>
+          <div class="feature-v9__content max-w-md text-center">
+            <div>
+              <RichTextRenderer
+                content={blok.choices[0].text}
+                resolver={(blok) => {
+                  return {
+                    component: StoryblokComponent,
+                    props: { blok }
+                  };
+                }}
+              />
+            </div>
 
-        <div class="mt-3 lg:mt-5">
-          <a class="feature-v9__link" href={`/${blok.choices[0].link.story.full_slug}`}
-            >{blok.choices[0].buttonText}</a
-          >
+            <div class="mt-3 lg:mt-5">
+              <a class="feature-v9__link" href={`/${blok.choices[0].link.story.full_slug}`}>
+                {blok.choices[0].buttonText}
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )
+    }
 
-    <div
-      class="feature-v9__block col-span-12 lg:col-span-6"
-      style=`background-image: url(${blok.choices[1].image.filename});background-size: contain;`>
-      <div class="feature-v9__content max-w-md text-center">
-        <div>
-          <RichTextRenderer
-            content={blok.choices[1].text}
-            resolver={(blok) => {
-              return {
-                component: StoryblokComponent,
-                props: { blok }
-              };
-            }}
-          />
-        </div>
+    {
+      blok.choices[1]?.image && (
+        <div
+          class="feature-v9__block col-span-12 lg:col-span-6"
+          style={`background-image: url(${blok.choices[1].image.filename});`}>
+          <div class="feature-v9__content max-w-md text-center">
+            <div>
+              <RichTextRenderer
+                content={blok.choices[1].text}
+                resolver={(blok) => {
+                  return {
+                    component: StoryblokComponent,
+                    props: { blok }
+                  };
+                }}
+              />
+            </div>
 
-        <div class="mt-3 lg:mt-5">
-          <a class="feature-v9__link" href={`/${blok.choices[1].link.story.full_slug}`}
-            >{blok.choices[1].buttonText}</a
-          >
+            <div class="mt-3 lg:mt-5">
+              <a class="feature-v9__link" href={`/${blok.choices[1].link.story.full_slug}`}>
+                {blok.choices[1].buttonText}
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )
+    }
   </div>
 </section>
 
@@ -79,7 +87,7 @@ Usage: codyhouse.co/license
   .feature-v9__block {
     position: relative;
     display: flex;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     @apply px-5 py-12 lg:px-8 lg:py-20;
