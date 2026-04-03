@@ -12,7 +12,7 @@ const { blok } = Astro.props;
     {
       blok.categories?.map((cat) => (
         <div class="flex flex-col items-center justify-center gap-4">
-          <div class="text-base-900 displayLG mt-4 w-300 font-medium text-balance">
+          <div class="text-base-900 displayLG mt-4 max-w-300 font-medium text-balance">
             <RichTextRenderer
               content={cat.intro}
               resolver={(blok) => {
