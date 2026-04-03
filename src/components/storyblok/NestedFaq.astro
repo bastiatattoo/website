@@ -7,12 +7,12 @@ import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 const { blok } = Astro.props;
 ---
 
-<section {...storyblokEditable(blok)} class="faq mt-125 mb-16 flex items-center justify-center">
+<section {...storyblokEditable(blok)} class="faq my-16 flex items-center justify-center">
   <Wrapper variant="standard" class="space-y-12">
     {
       blok.categories?.map((cat) => (
         <div class="flex flex-col items-center justify-center gap-4">
-          <div class="text-base-900 textXL mt-4 w-300 font-medium text-balance">
+          <div class="text-base-900 displayLG mt-4 w-300 font-medium text-balance">
             <RichTextRenderer
               content={cat.intro}
               resolver={(blok) => {

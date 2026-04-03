@@ -4,7 +4,6 @@ import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 import { storyblok } from "@storyblok/astro";
 import favicons from "astro-favicons";
-import NestedFaq from "./src/components/storyblok/NestedFaq.astro";
 
 // Determine output mode based on IS_PREVIEW env variable
 // Note: Vercel parses IS_PREVIEW=true as boolean, not string
