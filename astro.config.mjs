@@ -4,6 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 import { storyblok } from "@storyblok/astro";
 import favicons from "astro-favicons";
+import NestedFaq from "./src/components/storyblok/NestedFaq.astro";
 
 // Determine output mode based on IS_PREVIEW env variable
 // Note: Vercel parses IS_PREVIEW=true as boolean, not string
@@ -40,7 +41,8 @@ export default defineConfig({
       button: "components/storyblok/Button",
       faq: "components/storyblok/Faq",
       maps: "components/storyblok/Maps",
-      choices: "components/storyblok/Choices"
+      choices: "components/storyblok/Choices",
+      nestedFaq: "components/storyblok/NestedFaq"
     },
     enableFallbackComponent: true,
     customFallbackComponent: "components/storyblok/StoryblokFallback",

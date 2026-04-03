@@ -1,62 +1,84 @@
 ---
 import { storyblokEditable } from "@storyblok/astro";
+import Wrapper from "../fundations/containers/Wrapper.astro";
 import RichTextRenderer from "storyblok-rich-text-astro-renderer/RichTextRenderer.astro";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 
 const { blok } = Astro.props;
 ---
 
-<section {...storyblokEditable(blok)} class="faq my-16 flex items-center justify-center">
-  <div data-accordion-close-siblings="true" data-accordion-css-init="" class="accordion-css">
-    <ul class="accordion-css__list">
-      {
-        blok.faq?.map((qa) => (
-          <li data-accordion-status="not-active" class="accordion-css__item">
-            <div data-hover="" data-accordion-toggle="" class="accordion-css__item-top">
-              <h3 class="accordion-css__item-h3">{qa.question}</h3>
-              <div class="accordion-css__item-icon">
-                <svg
-                  class="accordion-css__item-icon-svg"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="100%"
-                  viewbox="0 0 36 36"
-                  fill="none">
-                  <path
-                    d="M28.5 22.5L18 12L7.5 22.5"
-                    stroke="currentColor"
-                    stroke-width="3"
-                    stroke-miterlimit="10"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div class="accordion-css__item-bottom">
-              <div class="accordion-css__item-bottom-wrap">
-                <div class="accordion-css__item-bottom-content">
-                  <div class="accordion-css__item-p prose">
-                    <RichTextRenderer
-                      content={qa.response}
-                      resolver={(blok) => {
-                        return {
-                          component: StoryblokComponent,
-                          props: { blok }
-                        };
-                      }}
-                    />
+<section {...storyblokEditable(blok)} class="faq mt-125 mb-16 flex items-center justify-center">
+  <Wrapper variant="standard" class="space-y-12">
+    {
+      blok.categories?.map((cat) => (
+        <div class="flex flex-col items-center justify-center gap-4">
+          <div class="text-base-900 textXL mt-4 w-300 font-medium text-balance">
+            <RichTextRenderer
+              content={cat.intro}
+              resolver={(blok) => {
+                return {
+                  component: StoryblokComponent,
+                  props: { blok }
+                };
+              }}
+            />
+          </div>
+          <div
+            data-accordion-close-siblings="true"
+            data-accordion-css-init=""
+            class="accordion-css">
+            <ul class="accordion-css__list">
+              {cat.faq?.map((qa) => (
+                <li data-accordion-status="not-active" class="accordion-css__item">
+                  <div data-hover="" data-accordion-toggle="" class="accordion-css__item-top">
+                    <h3 class="accordion-css__item-h3">{qa.question}</h3>
+                    <div class="accordion-css__item-icon">
+                      <svg
+                        class="accordion-css__item-icon-svg"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        viewbox="0 0 36 36"
+                        fill="none">
+                        <path
+                          d="M28.5 22.5L18 12L7.5 22.5"
+                          stroke="currentColor"
+                          stroke-width="3"
+                          stroke-miterlimit="10"
+                        />
+                      </svg>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </li>
-        ))
-      }
-    </ul>
-  </div>
+                  <div class="accordion-css__item-bottom">
+                    <div class="accordion-css__item-bottom-wrap">
+                      <div class="accordion-css__item-bottom-content">
+                        <div class="accordion-css__item-p prose">
+                          <RichTextRenderer
+                            content={qa.response}
+                            resolver={(blok) => {
+                              return {
+                                component: StoryblokComponent,
+                                props: { blok }
+                              };
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))
+    }
+  </Wrapper>
 </section>
 
 <style>
   .accordion-css {
     max-width: 1200px;
+    width: 100%;
     position: relative;
   }
 
