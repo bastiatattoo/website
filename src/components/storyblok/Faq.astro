@@ -1,9 +1,57 @@
 ---
 import { storyblokEditable } from "@storyblok/astro";
+import { renderRichText } from "@storyblok/astro";
 import RichTextRenderer from "storyblok-rich-text-astro-renderer/RichTextRenderer.astro";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+import { convert } from "html-to-text";
 
 const { blok } = Astro.props;
+
+const jsondata = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${Astro.site}/faq-tatouage#faqpage`,
+  name: blok.faqTitle || "FAQ",
+  description: blok.faqDescription || "Foire aux questions sur le tatouage et le piercing.",
+  mainEntity: blok.faq?.map((qa) => ({
+    "@type": "Question",
+    name: qa.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: convert(renderRichText(qa.response), {
+        wordwrap: null,
+        selectors: [
+          { selector: "a", options: { ignoreHref: true } },
+          { selector: "strong", format: "inline", options: { uppercase: true } },
+          { selector: "em", format: "inline", options: { uppercase: true } },
+          { selector: "b", format: "inline", options: { uppercase: true } },
+          { selector: "br", format: "skip" },
+          {
+            selector: "p",
+            format: "inline",
+            options: { leadingLineBreak: 0, trailingLineBreak: 0 }
+          },
+          {
+            selector: "li",
+            format: "inlineSurround",
+            options: { leadingLineBreak: 0, trailingLineBreak: 0, prefix: " -" }
+          },
+          {
+            selector: "ul",
+            format: "inline",
+            options: { leadingLineBreak: 0, trailingLineBreak: 0 }
+          },
+          {
+            selector: "ol",
+            format: "inline",
+            options: { leadingLineBreak: 0, trailingLineBreak: 0 }
+          }
+        ]
+      })
+    }
+  }))
+};
+const json = `${JSON.stringify(jsondata, null, 2)}`;
 ---
 
 <section {...storyblokEditable(blok)} class="faq my-16 flex items-center justify-center">
@@ -52,6 +100,7 @@ const { blok } = Astro.props;
       }
     </ul>
   </div>
+  <script type="application/ld+json" set:html={json} />
 </section>
 
 <style>

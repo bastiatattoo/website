@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Storyblok Nested FAQ Structure",
+  "type": "object",
+  "properties": {
+    "blok": {
+      "type": "object",
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "intro": {
+                "type": ["object", "null"],
+                "description": "Rich text field for category introduction"
+              },
+              "faq": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "question": {
+                      "type": "string",
+                      "description": "The question text for the FAQ item"
+                    },
+                    "response": {
+                      "type": ["object", "null"],
+                      "description": "Rich text field for the FAQ response"
+                    }
+                  },
+                  "required": ["question", "response"],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": ["intro", "faq"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["categories"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["blok"],
+  "additionalProperties": false
+}
