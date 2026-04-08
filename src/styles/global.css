@@ -242,6 +242,10 @@ html.lenis body {
   pointer-events: none;
 }
 
+/* section {
+  border: 1px solid red;
+} */
+
 /* ------------------------- Scaling System by Osmo [https://osmo.supply/] ------------------------- */
 
 /* Desktop */

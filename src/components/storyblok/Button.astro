@@ -6,7 +6,11 @@ const { blok } = Astro.props;
 
 <Wrapper variant="paddingless">
   <RollingLink
-    href={blok.href.story.slug === "home" ? "" : blok.href.story.slug}
+    href={blok.href?.story?.slug === "home"
+      ? ""
+      : blok.href?.story?.slug
+        ? blok.href.story.slug
+        : "#"}
     initialText={blok.text}
   />
 </Wrapper>

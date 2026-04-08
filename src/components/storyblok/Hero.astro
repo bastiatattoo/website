@@ -3,6 +3,7 @@ import BigLogo from "../assets/BigLogo.astro";
 // Fundations
 
 import Wrapper from "../fundations/containers/Wrapper.astro";
+const { blok } = Astro.props;
 ---
 
 <section class="overflow-hidden">
@@ -20,8 +21,7 @@ import Wrapper from "../fundations/containers/Wrapper.astro";
         loop
         playsinline
         class="absolute inset-0 size-full object-cover object-center">
-        <source src="/hero.mp4" type="video/mp4" />
-        <source src="/hero.webm" type="video/webm" />
+        <source src={`/hero${blok.video || "1"}.mp4`} type="video/mp4" />
         Votre navigateur ne supporte pas la vidéo HTML5.
       </video>
     </div>

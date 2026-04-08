@@ -1,0 +1,44 @@
+---
+// Fundations
+import Wrapper from "../fundations/containers/Wrapper.astro";
+import RichTextRenderer from "storyblok-rich-text-astro-renderer/RichTextRenderer.astro";
+import type { RichTextType } from "storyblok-rich-text-astro-renderer";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+import { storyblokEditable } from "@storyblok/astro";
+
+export interface Props {
+  blok: {
+    text: RichTextType;
+  };
+}
+
+const { blok } = Astro.props;
+---
+
+<section class="bigText" {...storyblokEditable(blok)}>
+  <Wrapper variant="standard" class="my-12">
+    <div class="display2XL text-base-900 font-medium tracking-tight">
+      <RichTextRenderer
+        content={blok.text}
+        resolver={(blok) => {
+          return {
+            component: StoryblokComponent,
+            props: { blok }
+          };
+        }}
+      />
+    </div>
+  </Wrapper>
+</section>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .intro :global(em) {
+    @apply text-base-500 font-light italic;
+  }
+
+  .display2XL :global(.btn-group) {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+  }
+</style>

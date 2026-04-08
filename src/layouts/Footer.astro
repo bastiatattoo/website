@@ -24,17 +24,6 @@ const pagesSorted = pages.map((page) => {
     full_slug: rel.full_slug
   };
 });
-
-contacts = contacts.map((contact) => {
-  return {
-    content: contact.content,
-    url: contact.isTel
-      ? `tel:${contact.url}`
-      : contact.isEmail
-        ? `mailto:${contact.url}`
-        : contact.url
-  };
-});
 ---
 
 <div data-footer-parallax="" class="footer-wrap">
@@ -74,15 +63,23 @@ contacts = contacts.map((contact) => {
         <div class="demo-footer__links space-y-4">
           {
             contacts.length > 0 &&
-              contacts.map((contact) =>
-                contact.url ? (
-                  <a data-underline-link="" href={contact.url} class="demo-footer__a">
-                    {contact.content}
+              contacts.map((contact) => (
+                <div class="textSM border-b-2 border-gray-700 pb-4">
+                  <a
+                    data-underline-link=""
+                    href={`mailto:${contact.email}`}
+                    class="demo-footer__a block pb-4">
+                    {contact.email}
                   </a>
-                ) : (
-                  <span class="demo-footer__a my-4">{contact.content}</span>
-                )
-              )
+                  <a
+                    data-underline-link=""
+                    href={`tel:${contact.tel}`}
+                    class="demo-footer__a block pb-4">
+                    {contact.tel}
+                  </a>
+                  <p class="demo-footer__a my-4">{contact.address}</p>
+                </div>
+              ))
           }
         </div>
       </div>

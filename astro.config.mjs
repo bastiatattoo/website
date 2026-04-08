@@ -27,7 +27,7 @@ export default defineConfig({
     components: {
       page: "components/storyblok/Page",
       hero: "components/storyblok/Hero",
-      intro: "components/storyblok/Intro",
+      intro: "components/storyblok/BigText",
       projectPreview: "components/storyblok/ProjectPreview",
       detailedList: "components/storyblok/DetailedList",
       servicePreview: "components/storyblok/ServicePreview",
