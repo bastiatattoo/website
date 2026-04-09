@@ -21,25 +21,25 @@ const { blok } = Astro.props;
           <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div class="space-y-2">
               <label for="prenom" class="text-base-900 font-display text-sm font-medium uppercase">
-                Prénom
+                Prénom*
               </label>
               <input
                 type="text"
                 id="prenom"
                 name="prenom"
-                class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-accent-500 focus:ring-accent-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
+                class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-base-500 focus:ring-base-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
                 required
               />
             </div>
             <div class="space-y-2">
               <label for="nom" class="text-base-900 font-display text-sm font-medium uppercase">
-                Nom
+                Nom*
               </label>
               <input
                 type="text"
                 id="nom"
                 name="nom"
-                class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-accent-500 focus:ring-accent-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
+                class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-base-500 focus:ring-base-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
                 required
               />
             </div>
@@ -47,13 +47,13 @@ const { blok } = Astro.props;
           <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div class="space-y-2">
               <label for="email" class="text-base-900 font-display text-sm font-medium uppercase">
-                Email
+                Email*
               </label>
               <input
                 type="email"
                 id="email"
                 name="email"
-                class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-accent-500 focus:ring-accent-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
+                class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-base-500 focus:ring-base-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
                 required
               />
             </div>
@@ -61,27 +61,87 @@ const { blok } = Astro.props;
               <label
                 for="telephone"
                 class="text-base-900 font-display text-sm font-medium uppercase">
-                Téléphone
+                Téléphone*
               </label>
               <input
                 type="tel"
                 id="telephone"
                 name="telephone"
-                class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-accent-500 focus:ring-accent-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
+                class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-base-500 focus:ring-base-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
                 required
               />
             </div>
           </div>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div class="space-y-2">
+              <p class="text-base-900 font-display mb-2 text-sm font-medium uppercase">Ville*</p>
+              <ul class="radio-switch">
+                <li class="radio-switch__item">
+                  <input
+                    class="radio-switch__input sr-only"
+                    type="radio"
+                    name="ville"
+                    id="Orange"
+                    value="Orange"
+                    checked
+                  />
+                  <label class="radio-switch__label" for="Orange">Orange</label>
+                </li>
+
+                <li class="radio-switch__item">
+                  <input
+                    class="radio-switch__input sr-only"
+                    type="radio"
+                    name="ville"
+                    id="Bastia"
+                    value="Bastia"
+                  />
+                  <label class="radio-switch__label" for="Bastia">Bastia</label>
+                  <div aria-hidden="true" class="radio-switch__marker"></div>
+                </li>
+              </ul>
+            </div>
+            <div class="space-y-2">
+              <p class="text-base-900 font-display mb-2 text-sm font-medium uppercase">
+                Catégorie*
+              </p>
+              <ul class="radio-switch">
+                <li class="radio-switch__item">
+                  <input
+                    class="radio-switch__input sr-only"
+                    type="radio"
+                    name="categorie"
+                    id="Tatouage"
+                    value="Tatouage"
+                    checked
+                  />
+                  <label class="radio-switch__label" for="Tatouage">Tatouage</label>
+                </li>
+
+                <li class="radio-switch__item">
+                  <input
+                    class="radio-switch__input sr-only"
+                    type="radio"
+                    name="categorie"
+                    id="Piercing"
+                    value="Piercing"
+                  />
+                  <label class="radio-switch__label" for="Piercing">Piercing</label>
+                  <div aria-hidden="true" class="radio-switch__marker"></div>
+                </li>
+              </ul>
+            </div>
+          </div>
           <div class="space-y-2">
             <label for="message" class="text-base-900 font-display text-sm font-medium uppercase">
-              Message
+              Message*
             </label>
             <textarea
               id="message"
               name="message"
               rows="6"
-              class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-accent-500 focus:ring-accent-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
-              placeholder="Comment pouvons-nous vous aider ?"
+              class="border-base-200 bg-base-50 text-base-900 placeholder:text-base-400 focus:border-base-500 focus:ring-base-500 w-full rounded-lg border px-4 py-3 transition-all duration-200 focus:ring-1 focus:outline-none"
+              placeholder="Bonjour, je souhaite prendre rendez-vous. Voici les détails de ma demande : ..."
               required></textarea>
             <div class="file-upload inline-block">
               <label
@@ -251,6 +311,87 @@ const { blok } = Astro.props;
 </section>
 
 <style>
+  @reference '../../styles/global.css';
+  /* --------------------------------
+
+File#: _1_radio-switch
+Title: Radio Switch
+Descr: Custom radio toggle
+Usage: codyhouse.co/license
+
+-------------------------------- */
+  :root {
+    --radio-switch-width: 186px;
+    --radio-switch-height: 46px;
+    --radio-switch-padding: 3px;
+    --radio-switch-radius: 50em;
+    --radio-switch-animation-duration: 0.3s;
+  }
+
+  .radio-switch {
+    position: relative;
+    display: inline-block;
+    display: inline-flex;
+    padding: var(--radio-switch-padding);
+    border-radius: calc(var(--radio-switch-radius) * 1.4);
+    @apply bg-gray-200;
+  }
+  .radio-switch:focus-within,
+  .radio-switch:active {
+    box-shadow: 0 0 0 2px hsl(221 39% 11% / 0.15);
+  }
+
+  .radio-switch__item {
+    position: relative;
+    display: inline-block;
+    height: calc(var(--radio-switch-height) - 2 * var(--radio-switch-padding));
+    width: calc(var(--radio-switch-width) * 0.5 - var(--radio-switch-padding));
+  }
+
+  .radio-switch__label {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radio-switch-radius);
+    cursor: pointer;
+    @apply text-sm lg:text-base;
+    user-select: none;
+    transition: all var(--radio-switch-animation-duration);
+  }
+  .radio-switch__input:checked ~ .radio-switch__label {
+    @apply text-white;
+  }
+  .radio-switch__input:focus ~ .radio-switch__label {
+    @apply bg-base-700/60;
+  }
+  .radio-switch__label :not(*):focus-within,
+  .radio-switch__input:focus ~ .radio-switch__label {
+    background-color: transparent;
+  }
+
+  .radio-switch__marker {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: -100%;
+    border-radius: var(--radio-switch-radius);
+    @apply bg-base-700;
+    height: calc(var(--radio-switch-height) - 2 * var(--radio-switch-padding));
+    width: calc(var(--radio-switch-width) * 0.5 - var(--radio-switch-padding));
+    @apply shadow-md;
+    transition: -webkit-transform var(--radio-switch-animation-duration);
+    transition: transform var(--radio-switch-animation-duration);
+    transition:
+      transform var(--radio-switch-animation-duration),
+      -webkit-transform var(--radio-switch-animation-duration);
+  }
+  .radio-switch__input:checked ~ .radio-switch__marker {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
   /* --------------------------------
 
 File#: _1_file-upload
