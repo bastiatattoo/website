@@ -14,7 +14,7 @@ const { blok } = Astro.props;
           class={`feature-v9__block col-span-12 pb-4 lg:col-span-6 ${blok.contain ? "bg-contain" : "bg-cover"}`}
           style={`background-image: url(${blok.choices[0].image.filename});`}>
           <div class={`feature-v9__content max-w-md text-center`}>
-            <div>
+            <div class="text">
               <RichTextRenderer
                 content={blok.choices[0].text}
                 resolver={(blok) => {
@@ -43,7 +43,7 @@ const { blok } = Astro.props;
           class={`feature-v9__block col-span-12 pb-4 lg:col-span-6 ${blok.contain ? "bg-contain" : "bg-cover"}`}
           style={`background-image: url(${blok.choices[1].image.filename});`}>
           <div class="feature-v9__content max-w-md text-center">
-            <div>
+            <div class="text">
               <RichTextRenderer
                 content={blok.choices[1].text}
                 resolver={(blok) => {
@@ -70,6 +70,10 @@ const { blok } = Astro.props;
 
 <style>
   @reference "../../styles/global.css";
+
+  .text :global(h3) {
+    @apply text-2xl font-bold lg:text-4xl;
+  }
 
   .feature-v9:hover .feature-v9__block:not(:hover) .feature-v9__content {
     opacity: 0.5;
@@ -98,8 +102,8 @@ const { blok } = Astro.props;
     transition: 0.2s;
   }
   .feature-v9__block::before {
-    height: 70%;
-    background: linear-gradient(hsl(221 39% 11% / 0), hsl(221 39% 11% / 0.8));
+    height: 100%;
+    background: linear-gradient(hsl(221 39% 11% / 0.4), hsl(221 39% 11% / 0.99));
     mix-blend-mode: multiply;
   }
   .feature-v9__block::after {
