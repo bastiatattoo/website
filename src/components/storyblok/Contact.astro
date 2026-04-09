@@ -2,6 +2,8 @@
 import Wrapper from "../fundations/containers/Wrapper.astro";
 import { storyblokEditable } from "@storyblok/astro";
 import Text from "../fundations/elements/Text.astro";
+import RichTextRenderer from "storyblok-rich-text-astro-renderer/RichTextRenderer.astro";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 
 const { blok } = Astro.props;
 ---
@@ -290,17 +292,16 @@ const { blok } = Astro.props;
               <Text tag="h3" variant="textLG" class="font-display text-base-900 uppercase">
                 Contact
               </Text>
-              <div class="mt-2 flex flex-col gap-2 text-sm">
-                <a
-                  href={`tel:+33${blok.tel.replace(/\s/g, "").slice(1)}`}
-                  class="text-base-500 hover:text-accent-500 transition-colors">
-                  {blok.tel}
-                </a>
-                <a
-                  href={`mailto:${blok.email}`}
-                  class="text-base-500 hover:text-accent-500 transition-colors">
-                  {blok.email}
-                </a>
+              <div class="text-base-500 mt-2 flex flex-col gap-2 text-sm">
+                <RichTextRenderer
+                  content={blok.tel}
+                  resolver={(blok) => {
+                    return {
+                      component: StoryblokComponent,
+                      props: { blok }
+                    };
+                  }}
+                />
               </div>
             </div>
           </div>
