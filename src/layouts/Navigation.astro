@@ -135,36 +135,6 @@ const navGroups = [
             ))
           }
         </div>
-        <div
-          class="bg-base-200 mt-1 flex flex-col justify-between gap-2 rounded-xl p-4 lg:items-center">
-          {
-            contacts.map((contact: any) =>
-              contact.isTel ? (
-                <Text tag="p" variant="textLG" class="text-base-900">
-                  <span class="sr-only">Téléphone:</span>
-                  <a
-                    href={contact.url}
-                    aria-label={`Appelez nous au ${contact.content}`}
-                    class="hover:text-base-900 text-base-500 text-base transition-colors">
-                    {contact.content}
-                  </a>
-                </Text>
-              ) : contact.isEmail ? (
-                <Text tag="p" variant="textLG" class="text-base-900">
-                  <span class="sr-only">Email:</span>
-                  <a
-                    href={contact.url}
-                    aria-label={`Email ${contact.content}`}
-                    class="hover:text-base-900 text-base-500 text-base transition-colors">
-                    {contact.content}
-                  </a>
-                </Text>
-              ) : (
-                <span class="text-base-500 text-base">{contact.content}</span>
-              )
-            )
-          }
-        </div>
       </div>
     </nav>
     <script type="module">
