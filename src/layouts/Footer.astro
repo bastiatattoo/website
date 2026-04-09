@@ -46,7 +46,6 @@ const legalSorted = legal.map((page) => {
             pagesSorted.length > 0 &&
               pagesSorted.map((page) => (
                 <a
-                  data-underline-link=""
                   href={`/${page.full_slug === "home" ? "" : page.full_slug}`}
                   class="demo-footer__a">
                   {page.name}
@@ -61,7 +60,7 @@ const legalSorted = legal.map((page) => {
           {
             socials.length > 0 &&
               socials.map((social) => (
-                <a data-underline-link="" href={social.url} class="demo-footer__a">
+                <a href={social.url} class="demo-footer__a">
                   {social.name}
                 </a>
               ))
@@ -92,16 +91,10 @@ const legalSorted = legal.map((page) => {
           contacts.length > 0 &&
             contacts.map((contact) => (
               <div class="displaySM">
-                <a
-                  data-underline-link=""
-                  href={`mailto:${contact.email}`}
-                  class="demo-footer__a__contact block">
+                <a href={`mailto:${contact.email}`} class="demo-footer__a__contact block">
                   {contact.email}
                 </a>
-                <a
-                  data-underline-link=""
-                  href={`tel:${contact.tel}`}
-                  class="demo-footer__a__contact block">
+                <a href={`tel:${contact.tel}`} class="demo-footer__a__contact block">
                   {contact.tel}
                 </a>
                 <p class="demo-footer__a__contact">{contact.address}</p>
