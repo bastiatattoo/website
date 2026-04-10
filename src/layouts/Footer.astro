@@ -2,6 +2,9 @@
 // Storyblok
 import { useStoryblokApi } from "@storyblok/astro";
 import Logo from "../components/assets/LogoFooter.astro";
+import RichTextRenderer from "storyblok-rich-text-astro-renderer/RichTextRenderer.astro";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+
 const storyblokApi = useStoryblokApi();
 
 let pages, rels, socials, contacts, legal;
@@ -34,6 +37,8 @@ const legalSorted = legal.map((page) => {
     full_slug: rel.full_slug
   };
 });
+
+console.log(contacts[0]);
 ---
 
 <div data-footer-parallax="" class="footer-wrap">
@@ -94,9 +99,17 @@ const legalSorted = legal.map((page) => {
                 <a href={`mailto:${contact.email}`} class="demo-footer__a__contact block">
                   {contact.email}
                 </a>
-                <a href={`tel:${contact.tel}`} class="demo-footer__a__contact block">
-                  {contact.tel}
-                </a>
+                <div>
+                  <RichTextRenderer
+                    content={contact.tel}
+                    resolver={(blok) => {
+                      return {
+                        component: StoryblokComponent,
+                        props: { blok }
+                      };
+                    }}
+                  />
+                </div>
                 <p class="demo-footer__a__contact">{contact.address}</p>
               </div>
             ))
