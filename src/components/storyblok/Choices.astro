@@ -71,7 +71,7 @@ const { blok } = Astro.props;
 <style>
   @reference "../../styles/global.css";
 
-  .text :global(h3, h2, h4, h5, h6) {
+  :global(.text h3, .text h2, .text h4, .text h5, .text h6) {
     @apply text-2xl font-bold lg:text-4xl;
   }
 

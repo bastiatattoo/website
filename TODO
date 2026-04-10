@@ -1,7 +1,4 @@
 - QR code page soin
-- catégories filtre, "noir & gris" : gestion espace et carcatère spéciaux
-- BigText, déborde en mobile
 - footer, champ tél avec RichText pour num tel
-- 404, libérer url
 - json schema sur accueil
 - filter gallery masonry

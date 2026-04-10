@@ -12,6 +12,7 @@ const filters = [
     target: f
   }))
 ];
+console.log(blok.images[50]);
 
 const items = blok.images.map((image) => ({
   filter: image["filter"].join(" "),
@@ -176,7 +177,7 @@ const items = blok.images.map((image) => ({
         const tokens = (el.getAttribute("data-filter-name") || "")
           .trim()
           .toLowerCase()
-          .split(/\s+/)
+          .split(/(?<!&)\s+(?!&)/)
           .filter(Boolean);
         itemTokens.set(el, new Set(tokens));
       });
