@@ -82,10 +82,8 @@ const seo = {
     <Wrapper variant="wide" class="pt-4 pb-8">
       <div class="relative h-[calc(100vh-2rem)] overflow-hidden rounded-3xl">
         <Image
-          width={1440}
-          height={1080}
-          loading="eager"
-          decoding="async"
+          inferSize
+          layout="constrained"
           alt={story.content?.featured_image?.alt || " "}
           src={story.content?.featured_image?.filename}
           class="absolute inset-0 size-full object-cover object-center"

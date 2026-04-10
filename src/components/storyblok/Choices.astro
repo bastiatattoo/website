@@ -3,7 +3,10 @@ import { storyblokEditable } from "@storyblok/astro";
 import RichTextRenderer from "storyblok-rich-text-astro-renderer/RichTextRenderer.astro";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 import RollingLink from "../fundations/elements/RollingLink.astro";
+import { Image } from "astro:assets";
 const { blok } = Astro.props;
+
+// style={`background-image: url(${blok.choices[0].image.filename});`}
 ---
 
 <section {...storyblokEditable(blok)} class="feature-v9">
@@ -11,9 +14,17 @@ const { blok } = Astro.props;
     {
       blok.choices[0]?.image && (
         <div
-          class={`feature-v9__block col-span-12 pb-4 lg:col-span-6 ${blok.contain ? "bg-contain" : "bg-cover"}`}
-          style={`background-image: url(${blok.choices[0].image.filename});`}>
-          <div class={`feature-v9__content max-w-md text-center`}>
+          class={`feature-v9__block col-span-12 pb-4 lg:col-span-6 ${blok.contain ? "bg-contain" : "bg-cover"}`}>
+          <div class="absolute inset-0 z-0 bg-gray-900/50">
+            <Image
+              src={blok.choices[0].image.filename}
+              alt={blok.choices[0].image.alt}
+              inferSize
+              layout="constrained"
+              class="h-full w-full object-cover"
+            />
+          </div>
+          <div class={`feature-v9__content relative max-w-md text-center`}>
             <div class="text">
               <RichTextRenderer
                 content={blok.choices[0].text}
@@ -40,8 +51,16 @@ const { blok } = Astro.props;
     {
       blok.choices[1]?.image && (
         <div
-          class={`feature-v9__block col-span-12 pb-4 lg:col-span-6 ${blok.contain ? "bg-contain" : "bg-cover"}`}
-          style={`background-image: url(${blok.choices[1].image.filename});`}>
+          class={`feature-v9__block col-span-12 pb-4 lg:col-span-6 ${blok.contain ? "bg-contain" : "bg-cover"}`}>
+          <div class="absolute inset-0 z-0 bg-gray-900/50">
+            <Image
+              src={blok.choices[1].image.filename}
+              alt={blok.choices[1].image.alt}
+              inferSize
+              layout="constrained"
+              class="h-full w-full object-cover"
+            />
+          </div>
           <div class="feature-v9__content max-w-md text-center">
             <div class="text">
               <RichTextRenderer

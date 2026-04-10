@@ -28,5 +28,11 @@ const { url, title, description, image } = {
     </Text>
     <RollingLink href={url} initialText="Read this article" />
   </div>
-  <Image src={image} alt={title || " "} inferSize class="h-48 w-full rounded-xl object-cover" />
+  <Image
+    src={image}
+    alt={title || " "}
+    inferSize
+    class="h-48 w-full rounded-xl object-cover"
+    layout="constrained"
+  />
 </article>

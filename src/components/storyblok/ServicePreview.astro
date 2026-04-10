@@ -24,8 +24,8 @@ const services = blok.list;
                   id={`service-image-${index}`}
                   src={item.image.filename}
                   alt={item.image.alt || " "}
-                  width={1440}
-                  height={1440}
+                  inferSize
+                  layout="constrained"
                   class="absolute inset-0 size-full object-cover object-center"
                   style={`display: ${index === 0 ? "block" : "none"}`}
                 />
