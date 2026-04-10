@@ -11,7 +11,6 @@ import Kicker from "../fundations/elements/Kicker.astro";
 import Wrapper from "../fundations/containers/Wrapper.astro";
 
 const { blok } = Astro.props;
-console.log(blok);
 ---
 
 <section {...storyblokEditable(blok)}>
@@ -54,10 +53,7 @@ console.log(blok);
                 <Image
                   src={step.image.filename}
                   alt={step.image.alt || " "}
-                  width={500}
-                  height={500}
-                  loading="eager"
-                  decoding="async"
+                  inferSize
                   class="h-48 w-full rounded-xl object-cover"
                 />
               )}

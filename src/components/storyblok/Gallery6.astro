@@ -24,14 +24,10 @@ const { blok } = Astro.props;
         </div>
         {
           blok.images[0]?.filename && (
-            <img
+            <Image
               src={blok.images[0].filename}
               alt={blok.images[0]?.alt || " "}
-              loading="lazy"
-              decoding="async"
-              fetchpriority="auto"
-              width="500"
-              height="500"
+              inferSize
               class="size-full rounded-xl object-cover"
             />
           )
@@ -40,28 +36,20 @@ const { blok } = Astro.props;
       <div class="flex flex-col gap-4 sm:col-span-2 lg:col-span-1">
         {
           blok.images[1]?.filename && (
-            <img
+            <Image
               src={blok.images[1].filename}
               alt={blok.images[1]?.alt || " "}
-              loading="lazy"
-              decoding="async"
-              fetchpriority="auto"
-              width="500"
-              height="500"
+              inferSize
               class="size-full rounded-xl object-cover"
             />
           )
         }
         {
           blok.images[2]?.filename && (
-            <img
+            <Image
               src={blok.images[2].filename}
               alt={blok.images[2]?.alt || " "}
-              loading="lazy"
-              decoding="async"
-              fetchpriority="auto"
-              width="500"
-              height="500"
+              inferSize
               class="size-full rounded-xl object-cover"
             />
           )
@@ -70,42 +58,30 @@ const { blok } = Astro.props;
       <div class="flex flex-col gap-4 sm:col-span-2 lg:col-span-1">
         {
           blok.images[3]?.filename && (
-            <img
+            <Image
               src={blok.images[3].filename}
               alt={blok.images[3]?.alt || " "}
-              loading="lazy"
-              decoding="async"
-              fetchpriority="auto"
-              width="500"
-              height="500"
+              inferSize
               class="aspect-square size-full rounded-xl object-cover object-top"
             />
           )
         }
         {
           blok.images[4]?.filename && (
-            <img
+            <Image
               src={blok.images[4].filename}
               alt={blok.images[4]?.alt || " "}
-              loading="lazy"
-              decoding="async"
-              fetchpriority="auto"
-              width="500"
-              height="500"
+              inferSize
               class="aspect-square size-full rounded-xl object-cover object-top"
             />
           )
         }
         {
           blok.images[5]?.filename && (
-            <img
+            <Image
               src={blok.images[5].filename}
               alt={blok.images[5]?.alt || " "}
-              loading="lazy"
-              decoding="async"
-              fetchpriority="auto"
-              width="500"
-              height="500"
+              inferSize
               class="aspect-square size-full rounded-xl object-cover object-top"
             />
           )

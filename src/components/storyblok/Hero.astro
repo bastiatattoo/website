@@ -1,5 +1,7 @@
 ---
-import BigLogo from "../assets/BigLogo.astro";
+import Both from "../assets/Both.astro";
+import Bastia from "../assets/Bastia.astro";
+import Orange from "../assets/Orange.astro";
 // Fundations
 
 import Wrapper from "../fundations/containers/Wrapper.astro";
@@ -13,7 +15,9 @@ const { blok } = Astro.props;
       <div
         class="pointer-events-none absolute inset-0 z-10 flex max-h-full flex-col items-center justify-center px-8 mix-blend-difference md:inset-4 lg:inset-8 lg:-mb-32"
         aria-hidden="true">
-        <BigLogo class="text-base-500 fill-base-500" />
+        {blok.logo === "bastia" && <Bastia class="text-base-500 fill-base-500" />}
+        {blok.logo === "both" && <Both class="text-base-500 fill-base-500" />}
+        {blok.logo === "orange" && <Orange class="text-base-500 fill-base-500" />}
       </div>
       <video
         autoplay

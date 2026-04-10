@@ -12,6 +12,12 @@ import { storyblokEditable } from "@storyblok/astro";
 export interface Props {
   blok: {
     text: RichTextType;
+    image: {
+      filename: string;
+      alt?: string;
+    };
+    imageDescription: string;
+    title: string;
   };
 }
 
@@ -28,10 +34,7 @@ const { blok } = Astro.props;
               <Image
                 src={blok.image.filename}
                 alt={blok.image.alt || " "}
-                width={800}
-                height={1080}
-                loading="eager"
-                decoding="async"
+                inferSize
                 class="aspect-square rounded-xl object-cover"
               />
             )

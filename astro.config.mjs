@@ -1,20 +1,36 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 import { storyblok } from "@storyblok/astro";
 import favicons from "astro-favicons";
+import { loadEnv } from "vite";
 
+const env = loadEnv('', process.cwd(), '');
 // Determine output mode based on IS_PREVIEW env variable
 // Note: Vercel parses IS_PREVIEW=true as boolean, not string
-const isPreview = process.env.IS_PREVIEW === true || process.env.IS_PREVIEW === 'true' || import.meta.env.IS_PREVIEW === true || import.meta.env.IS_PREVIEW === 'true';
+const isPreview = env.IS_PREVIEW === true || process.env.IS_PREVIEW === true || process.env.IS_PREVIEW === 'true' || import.meta.env.IS_PREVIEW === true || import.meta.env.IS_PREVIEW === 'true';
+
+console.log(`/f/${env.STORYBLOK_SPACE_ID}/**`)
 
 // https://astro.build/config
 export default defineConfig({
   // Use SSR (server) for preview mode, static for production
   output: isPreview ? "server" : "static",
   adapter: vercel({
-    webAnalytics: { enabled: true }
+    webAnalytics: { enabled: true },
+    imageService: true,
+    imagesConfig: {
+      minimumCacheTTL: 86400,
+      sizes: [300, 720, 1080, 1560, 1920, 2560],
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "a.storyblok.com",
+          pathname: `/f/${env.STORYBLOK_SPACE_ID}/**`,
+        },
+      ],
+    },
   }),
   vite: {
     plugins: [tailwindcss()],
@@ -23,7 +39,7 @@ export default defineConfig({
     }
   },
   integrations: [storyblok({
-    accessToken: import.meta.env.STORYBLOK_TOKEN || "your_token_here",
+    accessToken: env.STORYBLOK_TOKEN || "your_token_here",
     components: {
       page: "components/storyblok/Page",
       hero: "components/storyblok/Hero",
@@ -47,8 +63,18 @@ export default defineConfig({
     customFallbackComponent: "components/storyblok/StoryblokFallback",
     bridge: true,
     apiOptions: {
-      region: import.meta.env.STORYBLOK_REGION || "eu"
-    }
+      region: env.STORYBLOK_REGION || "eu"
+    },
   }), favicons(), sitemap()],
-  site: import.meta.env.SITE_URL || "https://yourdomain.com"
+  image: {
+      service: passthroughImageService(),
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "a.storyblok.com",
+          pathname: `/f/${env.STORYBLOK_SPACE_ID}/**`,
+        },
+      ],
+    },
+  site: env.SITE_URL || "https://yourdomain.com"
 })

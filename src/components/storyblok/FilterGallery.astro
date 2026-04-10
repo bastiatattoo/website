@@ -1,5 +1,6 @@
 ---
 import { storyblokEditable } from "@storyblok/astro";
+import { Image } from "astro:assets";
 
 const { blok } = Astro.props;
 
@@ -14,7 +15,8 @@ const filters = [
 
 const items = blok.images.map((image) => ({
   filter: image["filter"].join(" "),
-  src: image["image"].filename
+  src: image["image"].filename,
+  alt: image["image"].alt || " "
 }));
 ---
 
@@ -42,7 +44,7 @@ const items = blok.images.map((image) => ({
           data-filter-status="active"
           class="filter-list__item">
           <div class="demo-card rounded-xl">
-            <img src={item.src} alt="" class="rounded-xl" />
+            <Image src={item.src} alt={item.alt} inferSize class="rounded-xl" />
           </div>
         </div>
       ))

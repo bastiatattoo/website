@@ -34,7 +34,18 @@ const projects = blok.projects;
       />
     </div>
 
-    <div class="mt-12 grid grid-cols-1 items-start gap-x-4 gap-y-4 lg:grid-cols-12">
+    <div
+      class="keen-slider__container mt-12 grid grid-cols-1 items-start gap-x-4 gap-y-4 lg:grid-cols-12">
+      <div class="hidden">
+        {projects.map((project) =>(
+          <div class="data-project-title">
+            {project.title}
+          </div>
+          <div class="data-project-description">
+            {project.description}
+          </div>
+        ))}
+      </div>
       <div
         class="bg-base-50 order-last flex h-full w-sm max-w-full flex-col justify-between rounded-xl p-4 lg:order-first lg:col-span-3 xl:px-4 xl:py-8">
         <div>
@@ -55,16 +66,16 @@ const projects = blok.projects;
             variant="muted"
             iconOnly
             aria-label="Précédent"
-            id="keen-slider-previous">
+            id="keen-slider__previous">
             <ArrowLeft size="base" slot="icon" />
           </Button>
-          <Button size="xs" variant="muted" iconOnly aria-label="Suivant" id="keen-slider-next">
+          <Button size="xs" variant="muted" iconOnly aria-label="Suivant" id="keen-slider__next">
             <ArrowRight size="base" slot="icon" />
           </Button>
         </div>
       </div>
       <div class="lg:col-span-8 lg:col-start-5">
-        <div id="keen-slider" class="keen-slider overflow-hidden rounded-xl">
+        <div class="keen-slider overflow-hidden rounded-xl">
           {projects.map((project) => <ProjectCard post={project} />)}
         </div>
       </div>
@@ -74,14 +85,17 @@ const projects = blok.projects;
 
 <script define:vars={{ projects }}>
   window.projects = projects;
+
 </script>
 
 <script>
   import "keen-slider/keen-slider.min.css";
   import KeenSlider from "keen-slider";
-  const keenSlider = new KeenSlider(
-    "#keen-slider",
-    {
+
+  const containers = document.querySelectorAll(".keen-slider__container");
+  containers.forEach((container) => {
+    const slider = container.querySelector(".keen-slider");
+    const keenSlider =new KeenSlider(slider, {
       loop: true,
       slides: {
         origin: "auto",
@@ -97,29 +111,30 @@ const projects = blok.projects;
           }
         }
       }
-    },
-    []
-  );
-  const keenSliderPrevious = document.getElementById("keen-slider-previous");
-  const keenSliderNext = document.getElementById("keen-slider-next");
-  keenSliderPrevious.addEventListener("click", () => keenSlider.prev());
-  keenSliderNext.addEventListener("click", () => keenSlider.next());
-
-  const titleEl = document.getElementById("project-title");
-  const descriptionEl = document.getElementById("project-description");
-
-  function updateInfo(slide) {
-    const project = window.projects[slide];
-    if (project) {
-      titleEl.textContent = project.title;
-      descriptionEl.textContent = project.description;
+    });
+    const keenSliderPrevious = container.querySelector("#keen-slider__previous");
+    const keenSliderNext = container.querySelector("#keen-slider__next");
+    keenSliderPrevious.addEventListener("click", () => keenSlider.prev());
+    keenSliderNext.addEventListener("click", () => keenSlider.next());
+    const titleEl = container.querySelector("#project-title");
+    const descriptionEl = container.querySelector("#project-description");
+    const dataTitles = container.querySelectorAll(".data-project-title");
+    const dataDescriptions = container.querySelectorAll(".data-project-description");
+    function updateInfo(slide) {
+      if(!dataTitles || !dataDescriptions) return;
+      titleEl.textContent = dataTitles[slide].textContent;
+      descriptionEl.textContent = dataDescriptions[slide].textContent;
     }
-  }
+    keenSlider.on("slideChanged", (s) => {
+      updateInfo(s.track.details.abs % dataTitles.length);
+    });
 
-  keenSlider.on("slideChanged", (s) => {
-    updateInfo(s.track.details.abs % window.projects.length);
+    // Initialize with first slide
+    updateInfo(0);
   });
 
-  // Initialize with first slide
-  updateInfo(0);
+
+  
+
+  
 </script>

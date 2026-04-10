@@ -10,8 +10,7 @@ const { post } = Astro.props;
   <Image
     src={post.image.filename}
     alt={post.image.alt || " "}
-    width={1000}
-    height={1000}
+    inferSize
     class="h-full max-h-[80vh] w-full rounded-xl object-cover object-center"
   />
 </article>
