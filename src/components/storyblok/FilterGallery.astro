@@ -36,24 +36,105 @@ const items = blok.images.map((image) => ({
       ))
     }
   </div>
-  <div aria-live="polite" role="list" class="filter-list">
-    {
-      items.map((item) => (
-        <div
-          role="listitem"
-          data-filter-name={item.filter}
-          data-filter-status="active"
-          class="filter-list__item">
-          <div class="demo-card rounded-xl">
-            <Image src={item.src} alt={item.alt} inferSize class="rounded-xl" />
-          </div>
-        </div>
-      ))
-    }
+  <div class="masonry-wrap">
+    <div class="masonry-collection">
+      <div aria-live="polite" role="list" data-masonry-list="" class="masonry-list filter-list">
+        {
+          items.map((item) => (
+            <div
+              role="listitem"
+              data-filter-name={item.filter}
+              data-filter-status="active"
+              class="filter-list__item masonry-item">
+              <div class="demo-card masonry-item__visual rounded-xl">
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  inferSize
+                  class="masonry-item__visual-img rounded-xl"
+                />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
   </div>
 </div>
 
 <style>
+  .masonry-wrap {
+    padding-bottom: 4em;
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+
+  .masonry-list {
+    grid-column-gap: var(--masonry-gap);
+    grid-row-gap: var(--masonry-gap);
+    flex-flow: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+    position: relative;
+  }
+
+  .masonry-item {
+    width: calc(
+      ((100% - 1px) - (var(--masonry-col) - 1) * var(--masonry-gap)) / var(--masonry-col)
+    );
+  }
+
+  .masonry-item__visual {
+    border-radius: 1.25em;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .masonry-item__visual.is--square {
+    aspect-ratio: 1;
+  }
+
+  .masonry-item__visual.is--wide {
+    aspect-ratio: 3 / 2;
+  }
+
+  .masonry-item__visual.is--tall {
+    aspect-ratio: 2 / 3;
+  }
+
+  .masonry-item__visual-img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  [data-masonry-list] {
+    --masonry-col: 4;
+    --masonry-gap: 1em;
+  }
+
+  @media screen and (max-width: 991px) {
+    [data-masonry-list] {
+      --masonry-col: 3;
+      --masonry-gap: 1em;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    [data-masonry-list] {
+      --masonry-col: 2;
+      --masonry-gap: 0.5em;
+    }
+  }
+
+  @media screen and (max-width: 575px) {
+    [data-masonry-list] {
+      --masonry-col: 1;
+      --masonry-gap: 0em;
+    }
+  }
+
   .filter-group {
     min-height: 100vh;
     padding-bottom: 10em;
@@ -119,6 +200,7 @@ const items = blok.images.map((image) => ({
     transform: scale(0.9) rotate(0.001deg);
     opacity: 0;
     visibility: hidden;
+    display: none;
     position: absolute;
   }
 
@@ -147,6 +229,103 @@ const items = blok.images.map((image) => ({
 </style>
 
 <script>
+  function initMasonryGrid() {
+    document.querySelectorAll("[data-masonry-list]").forEach((container) => {
+      const shuffle = container.dataset.masonryShuffle !== "false";
+      let cols, gapPx, colHeights;
+
+      // Take columns and gaps from CSS
+      const getVars = () => {
+        const cs = getComputedStyle(container);
+        cols = parseInt(cs.getPropertyValue("--masonry-col"));
+        const rawGap = cs.getPropertyValue("--masonry-gap").trim();
+        if (rawGap.endsWith("px")) {
+          gapPx = parseFloat(rawGap);
+        } else if (rawGap.endsWith("em")) {
+          gapPx = parseFloat(rawGap) * parseFloat(cs.fontSize);
+        } else if (rawGap.endsWith("rem")) {
+          gapPx =
+            parseFloat(rawGap) * parseFloat(getComputedStyle(document.documentElement).fontSize);
+        } else {
+          gapPx = parseFloat(rawGap);
+        }
+      };
+
+      // Set the layout
+      const layout = () => {
+        getVars();
+        const wCalc = `(100% - ${cols - 1}*var(--masonry-gap)) / ${cols}`;
+        colHeights = Array(cols).fill(0);
+        container.style.position = "relative";
+        const items = Array.from(container.children);
+        items.forEach((el) => {
+          el.style.position = "absolute";
+          el.style.width = `calc(${wCalc})`;
+        });
+        items.forEach((el, i) => {
+          const h = el.offsetHeight;
+          const idx = shuffle ? colHeights.indexOf(Math.min(...colHeights)) : i % cols;
+          el.style.top = `${colHeights[idx]}px`;
+          el.style.left = `calc(${wCalc}*${idx} + var(--masonry-gap)*${idx})`;
+          colHeights[idx] += h + gapPx;
+        });
+        container.style.height = `${Math.max(...colHeights)}px`;
+      };
+
+      // Debounce function
+      const debounce = (fn, delay) => {
+        let t;
+        return () => {
+          clearTimeout(t);
+          t = setTimeout(fn, delay);
+        };
+      };
+
+      // Resize handler
+      const onResize = debounce(layout, 100);
+      window.addEventListener("resize", onResize);
+
+      // Watch for image loads (fallback if no aspect-ratio defined)
+      const debouncedLayout = debounce(layout, 50);
+      const imgLoad = () => {
+        container.querySelectorAll("img").forEach((img) => {
+          if (!img.complete) {
+            img.addEventListener("load", debouncedLayout, { once: true });
+            img.addEventListener("error", debouncedLayout, { once: true });
+          }
+        });
+      };
+
+      // Run layout immediately, then watch for straggler images
+      layout();
+      imgLoad();
+
+      // Constructor with destroy and recalc function
+      container._masonry = {
+        recalc: () => {
+          layout();
+          imgLoad();
+        },
+        destroy: () => {
+          window.removeEventListener("resize", onResize);
+          const items = Array.from(container.children);
+          items.forEach((el) => {
+            el.style.position = el.style.width = el.style.top = el.style.left = "";
+          });
+          container.style.position = container.style.height = "";
+        }
+      };
+    });
+  }
+
+  // Initialize Masonry Grid
+  document.addEventListener("DOMContentLoaded", () => {
+    initMasonryGrid();
+  });
+
+  // Find the grid, and then re-init the layout
+  const masonryGrid = document.querySelector("[data-masonry-list]");
+
   function initBasicFilterSetupMultiMatch() {
     const transitionDelay = 300;
     const groups = [...document.querySelectorAll("[data-filter-group]")];
@@ -237,6 +416,9 @@ const items = blok.images.map((image) => ({
       group.addEventListener("click", (e) => {
         const btn = e.target.closest("[data-filter-target]");
         if (btn && group.contains(btn)) paint(btn.getAttribute("data-filter-target"));
+        setTimeout(() => {
+          masonryGrid._masonry.recalc();
+        }, 300);
       });
     });
   }
