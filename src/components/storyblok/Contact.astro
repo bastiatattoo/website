@@ -6,6 +6,7 @@ import RichTextRenderer from "storyblok-rich-text-astro-renderer/RichTextRendere
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 
 const { blok } = Astro.props;
+console.log(blok);
 ---
 
 <section {...storyblokEditable(blok)}>
@@ -286,6 +287,16 @@ const { blok } = Astro.props;
                     </div>
                   ))
                 }
+              </div>
+            </div>
+            <div>
+              <Text tag="h3" variant="textLG" class="font-display text-base-900 uppercase">
+                EMAIL
+              </Text>
+              <div class="text-base-500 mt-2 flex flex-col gap-2 text-sm">
+                <a href={`mailto:${blok.email}`} class="demo-footer__a__contact block">
+                  {blok.email}
+                </a>
               </div>
             </div>
             <div>
