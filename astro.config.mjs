@@ -11,7 +11,6 @@ const env = loadEnv('', process.cwd(), '');
 // Note: Vercel parses IS_PREVIEW=true as boolean, not string
 const isPreview = env.IS_PREVIEW === true || process.env.IS_PREVIEW === true || process.env.IS_PREVIEW === 'true' || import.meta.env.IS_PREVIEW === true || import.meta.env.IS_PREVIEW === 'true';
 
-console.log(`/f/${env.STORYBLOK_SPACE_ID}/**`)
 
 // https://astro.build/config
 export default defineConfig({

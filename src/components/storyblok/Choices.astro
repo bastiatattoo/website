@@ -5,8 +5,6 @@ import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 import RollingLink from "../fundations/elements/RollingLink.astro";
 import { Image } from "astro:assets";
 const { blok } = Astro.props;
-
-// style={`background-image: url(${blok.choices[0].image.filename});`}
 ---
 
 <section {...storyblokEditable(blok)} class="feature-v9">
