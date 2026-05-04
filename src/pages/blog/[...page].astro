@@ -37,9 +37,12 @@ export async function getStaticPaths({ paginate }: { paginate: PaginateFunction 
     pageSize: DEFAULT_POSTS_PER_PAGE
   });
 
-  return paginate(data.stories, {
-    pageSize: DEFAULT_POSTS_PER_PAGE
-  });
+  // If there are no stories, don't generate any blog pages
+  if (data.stories.length === 0) {
+    return [];
+  }
+
+  return paginatedData;
 }
 
 // ============================================
