@@ -14,14 +14,24 @@ export async function getStaticPaths({ paginate }: { paginate: PaginateFunction 
   const sbApi = useStoryblokApi();
 
   // Fetch all blog stories
-  const { data } = await sbApi.get("cdn/stories", {
-    version: "published",
-    token: import.meta.env.STORYBLOK_TOKEN,
-    starts_with: "blog/",
-    per_page: 100,
-    sort_by: "first_published_at:desc",
-    content_type: "blog"
-  });
+  let data;
+  try {
+    const result = await sbApi.get("cdn/stories", {
+      version: "published",
+      token: import.meta.env.STORYBLOK_TOKEN,
+      starts_with: "blog/",
+      per_page: 100,
+      sort_by: "first_published_at:desc",
+      content_type: "blog"
+    });
+    data = result.data;
+  } catch (error: any) {
+    if (error?.status === 404) {
+      // No blog stories found, return empty paths
+      return [];
+    }
+    throw error;
+  }
 
   let paginatedData = paginate(data.stories, {
     pageSize: DEFAULT_POSTS_PER_PAGE
@@ -52,26 +62,47 @@ let blogstory, paginatedData;
 
 const sbApi = useStoryblokApi();
 const isPreview = import.meta.env.IS_PREVIEW === true || import.meta.env.IS_PREVIEW === "true";
-// Fetch the blog story
-const { data } = await sbApi.get("cdn/stories/blog", {
-  version: isPreview ? "draft" : "published",
-  token: import.meta.env.STORYBLOK_TOKEN
-});
-blogstory = data.story;
+
+// Fetch the blog story (the blog landing page)
+let blogData;
+try {
+  const result = await sbApi.get("cdn/stories/blog", {
+    version: isPreview ? "draft" : "published",
+    token: import.meta.env.STORYBLOK_TOKEN
+  });
+  blogData = result.data;
+} catch (error: any) {
+  if (error?.status === 404) {
+    blogData = { story: null };
+  } else {
+    throw error;
+  }
+}
+blogstory = blogData.story;
 
 // SSR Mode
 if (!pageFromProps) {
-  const { data } = await sbApi.get("cdn/stories", {
-    version: isPreview ? "draft" : "published",
-    token: import.meta.env.STORYBLOK_TOKEN,
-    starts_with: "blog/",
-    per_page: 6,
-    sort_by: "first_published_at:desc",
-    content_type: "blog"
-  });
+  let storiesData;
+  try {
+    const result = await sbApi.get("cdn/stories", {
+      version: isPreview ? "draft" : "published",
+      token: import.meta.env.STORYBLOK_TOKEN,
+      starts_with: "blog/",
+      per_page: 6,
+      sort_by: "first_published_at:desc",
+      content_type: "blog"
+    });
+    storiesData = result.data;
+  } catch (error: any) {
+    if (error?.status === 404) {
+      storiesData = { stories: [] };
+    } else {
+      throw error;
+    }
+  }
   paginatedData = {
-    data: data.stories,
-    total: 2
+    data: storiesData.stories,
+    total: storiesData.stories.length
   };
 } else {
   // SSG mode: story comes from getStaticPaths props
@@ -90,7 +121,7 @@ const seo = {
 ---
 
 <Layout seo={seo}>
-  <StoryblokComponent blok={blogstory.content} />
+  {blogstory ? <StoryblokComponent blok={blogstory.content} /> : null}
   {
     paginatedData.data.length > 0 && (
       <Wrapper variant="standard" class="py-12">

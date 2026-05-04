@@ -38,7 +38,7 @@ const { blok } = Astro.props;
 
             <div class="mt-3 text-lg lg:mt-5 lg:text-2xl">
               <RollingLink
-                href={`/${blok.choices[0].link.story.full_slug}`}
+                href={`/${blok.choices[0].link.story?.full_slug}`}
                 initialText={blok.choices[0].buttonText}
               />
             </div>
@@ -76,7 +76,7 @@ const { blok } = Astro.props;
 
             <div class="mt-3 text-lg lg:mt-5 lg:text-2xl">
               <RollingLink
-                href={`/${blok.choices[1].link.story.full_slug}`}
+                href={`/${blok.choices[1].link.story?.full_slug}`}
                 initialText={blok.choices[1].buttonText}
               />
             </div>

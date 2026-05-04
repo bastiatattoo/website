@@ -29,7 +29,7 @@ const projects = blok.projects;
         {blok.title}
       </Text>
       <RollingLink
-        href={blok.linkUrl.story ? `/${blok.linkUrl.story.full_slug}` : blok.linkUrl.url}
+        href={blok.linkUrl.story ? `/${blok.linkUrl.story?.full_slug}` : blok.linkUrl.url}
         initialText={blok.linkInitialText}
       />
     </div>
