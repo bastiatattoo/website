@@ -10,7 +10,6 @@ const { blok } = Astro.props;
 const jsondata = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "@id": `${Astro.site}/faq-tatouage#faqpage`,
   name: blok.faqTitle || "FAQ",
   description: blok.faqDescription || "Foire aux questions sur le tatouage et le piercing.",
   mainEntity: blok.faq?.map((qa) => ({
