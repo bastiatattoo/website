@@ -98,15 +98,17 @@ const legalSorted = legal.map((page) => {
                   {contact.email}
                 </a>
                 <div>
-                  <RichTextRenderer
-                    content={contact.tel}
-                    resolver={(blok) => {
-                      return {
-                        component: StoryblokComponent,
-                        props: { blok }
-                      };
-                    }}
-                  />
+                  {contact.tel && (
+                    <RichTextRenderer
+                      content={contact.tel}
+                      resolver={(blok) => {
+                        return {
+                          component: StoryblokComponent,
+                          props: { blok }
+                        };
+                      }}
+                    />
+                  )}
                 </div>
                 <p class="demo-footer__a__contact">{contact.address}</p>
               </div>

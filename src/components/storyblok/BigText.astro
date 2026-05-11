@@ -18,15 +18,19 @@ const { blok } = Astro.props;
 <section class="bigText" {...storyblokEditable(blok)}>
   <Wrapper variant="standard" class="my-12">
     <div class="display2XL text-base-900 font-medium tracking-tight">
-      <RichTextRenderer
-        content={blok.text}
-        resolver={(blok) => {
-          return {
-            component: StoryblokComponent,
-            props: { blok }
-          };
-        }}
-      />
+      {
+        blok.text && (
+          <RichTextRenderer
+            content={blok.text}
+            resolver={(blok) => {
+              return {
+                component: StoryblokComponent,
+                props: { blok }
+              };
+            }}
+          />
+        )
+      }
     </div>
   </Wrapper>
 </section>

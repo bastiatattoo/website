@@ -16,10 +16,12 @@ const { blok } = Astro.props;
           {blok.formTitle}
         </Text>
         <form
-          action="https://formsubmit.co/5c82ade3eca67936655754ce4fb6a5f3"
+          action="https://formsubmit.co/stevengraphicaderme@gmail.com"
           method="POST"
           enctype="multipart/form-data"
           class="mt-8 space-y-8">
+          <input type="hidden" name="_cc" value="nadiaelbakri@yahoo.fr" />
+
           <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div class="space-y-2">
               <label for="prenom" class="text-base-900 font-display text-sm font-medium uppercase">
@@ -303,15 +305,19 @@ const { blok } = Astro.props;
                 Contact
               </Text>
               <div class="text-base-500 mt-2 flex flex-col gap-2 text-sm">
-                <RichTextRenderer
-                  content={blok.tel}
-                  resolver={(blok) => {
-                    return {
-                      component: StoryblokComponent,
-                      props: { blok }
-                    };
-                  }}
-                />
+                {
+                  blok.tel && (
+                    <RichTextRenderer
+                      content={blok.tel}
+                      resolver={(blok) => {
+                        return {
+                          component: StoryblokComponent,
+                          props: { blok }
+                        };
+                      }}
+                    />
+                  )
+                }
               </div>
             </div>
           </div>

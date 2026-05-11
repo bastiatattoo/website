@@ -1,0 +1,87 @@
+---
+import { storyblokEditable } from "@storyblok/astro";
+const { blok } = Astro.props;
+---
+
+<section class="agenda border-xl bg-white" {...storyblokEditable(blok)}>
+  <Fragment set:html={blok.iframe} />
+</section>
+
+<style>
+  .agenda {
+    height: 1549px;
+    & :global(iframe) {
+      height: 1549px;
+    }
+  }
+  @media (max-width: 2560px) {
+    .agenda {
+      height: 864px;
+      & :global(iframe) {
+        height: 864px;
+      }
+    }
+  }
+  @media (max-width: 900px) {
+    .agenda {
+      height: 898px;
+      & :global(iframe) {
+        height: 898px;
+      }
+    }
+  }
+  @media (max-width: 728px) {
+    .agenda {
+      height: 831px;
+      & :global(iframe) {
+        height: 831px;
+      }
+    }
+  }
+  @media (max-width: 704px) {
+    .agenda {
+      height: 855px;
+      & :global(iframe) {
+        height: 855px;
+      }
+    }
+  }
+  @media (max-width: 600px) {
+    .agenda {
+      height: 1015px;
+      & :global(iframe) {
+        height: 1015px;
+      }
+    }
+  }
+  @media (max-width: 599px) {
+    .agenda {
+      height: 1481px;
+      & :global(iframe) {
+        height: 1481px;
+      }
+    }
+  }
+  @media (max-width: 538px) {
+    .agenda {
+      height: 1533px;
+      & :global(iframe) {
+        height: 1533px;
+      }
+    }
+  }
+</style>
+
+<!-- 
+2560px -> 864px
+900px -> 898px
+728px -> 831px
+704px -> 855px
+600px -> 1015px
+599px -> 1481px
+538px -> 1497px
+441px -> 1449px
+350px -> 1513px
+340px -> 1533px
+300px -> 1549px
+-->

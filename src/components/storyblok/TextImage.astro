@@ -51,15 +51,19 @@ const { blok } = Astro.props;
           {blok.title}
         </Text>
         <div class="textLG text-base-600 withList prose mt-8">
-          <RichTextRenderer
-            content={blok.text}
-            resolver={(blok) => {
-              return {
-                component: StoryblokComponent,
-                props: { blok }
-              };
-            }}
-          />
+          {
+            blok.text && (
+              <RichTextRenderer
+                content={blok.text}
+                resolver={(blok) => {
+                  return {
+                    component: StoryblokComponent,
+                    props: { blok }
+                  };
+                }}
+              />
+            )
+          }
         </div>
       </div>
     </div>

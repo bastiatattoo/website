@@ -1,0 +1,10 @@
+---
+import { YouTube } from "astro-embed";
+import { storyblokEditable } from "@storyblok/astro";
+
+const { blok } = Astro.props;
+---
+
+<div class="video" {...storyblokEditable(blok)}>
+  <YouTube class="mx-auto w-full rounded-xl" id={blok.id} poster={blok.image.filename} />
+</div>

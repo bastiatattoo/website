@@ -66,15 +66,17 @@ const json = `${JSON.stringify(jsondata, null, 2)}`;
       blok.categories?.map((cat) => (
         <div class="flex flex-col items-center justify-center gap-4">
           <div class="text-base-900 displayLG mt-4 max-w-300 font-medium text-balance">
-            <RichTextRenderer
-              content={cat.intro}
-              resolver={(blok) => {
-                return {
-                  component: StoryblokComponent,
-                  props: { blok }
-                };
-              }}
-            />
+            {cat.intro && (
+              <RichTextRenderer
+                content={cat.intro}
+                resolver={(blok) => {
+                  return {
+                    component: StoryblokComponent,
+                    props: { blok }
+                  };
+                }}
+              />
+            )}
           </div>
           <div
             data-accordion-close-siblings="true"
@@ -105,15 +107,17 @@ const json = `${JSON.stringify(jsondata, null, 2)}`;
                     <div class="accordion-css__item-bottom-wrap">
                       <div class="accordion-css__item-bottom-content">
                         <div class="accordion-css__item-p prose">
-                          <RichTextRenderer
-                            content={qa.response}
-                            resolver={(blok) => {
-                              return {
-                                component: StoryblokComponent,
-                                props: { blok }
-                              };
-                            }}
-                          />
+                          {qa.response && (
+                            <RichTextRenderer
+                              content={qa.response}
+                              resolver={(blok) => {
+                                return {
+                                  component: StoryblokComponent,
+                                  props: { blok }
+                                };
+                              }}
+                            />
+                          )}
                         </div>
                       </div>
                     </div>

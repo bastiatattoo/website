@@ -45,15 +45,17 @@ blok.maps.map((map) => {
             </div>
             {map?.text && (
               <div class="text-base-600 withList prose mt-8 shrink text-base xl:text-lg">
-                <RichTextRenderer
-                  content={map.text}
-                  resolver={(blok) => {
-                    return {
-                      component: StoryblokComponent,
-                      props: { blok }
-                    };
-                  }}
-                />
+                {map.text && (
+                  <RichTextRenderer
+                    content={map.text}
+                    resolver={(blok) => {
+                      return {
+                        component: StoryblokComponent,
+                        props: { blok }
+                      };
+                    }}
+                  />
+                )}
               </div>
             )}
           </div>

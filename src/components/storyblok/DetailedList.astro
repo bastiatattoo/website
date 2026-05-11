@@ -37,15 +37,17 @@ const { blok } = Astro.props;
                 </Text>
                 {step.description && (
                   <div class="text-base-600 prose textSM mt-2">
-                    <RichTextRenderer
-                      content={step.description}
-                      resolver={(blok) => {
-                        return {
-                          component: StoryblokComponent,
-                          props: { blok }
-                        };
-                      }}
-                    />
+                    {step.description && (
+                      <RichTextRenderer
+                        content={step.description}
+                        resolver={(blok) => {
+                          return {
+                            component: StoryblokComponent,
+                            props: { blok }
+                          };
+                        }}
+                      />
+                    )}
                   </div>
                 )}
               </div>

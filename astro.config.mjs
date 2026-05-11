@@ -56,7 +56,9 @@ export default defineConfig({
       faq: "components/storyblok/Faq",
       maps: "components/storyblok/Maps",
       choices: "components/storyblok/Choices",
-      nestedFaq: "components/storyblok/NestedFaq"
+      nestedFaq: "components/storyblok/NestedFaq",
+      video: "components/storyblok/Video",
+      agenda: "components/storyblok/Agenda",
     },
     enableFallbackComponent: true,
     customFallbackComponent: "components/storyblok/StoryblokFallback",
