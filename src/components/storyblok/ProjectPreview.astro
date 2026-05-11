@@ -16,6 +16,8 @@ import { storyblokEditable } from "@storyblok/astro";
 
 const { blok } = Astro.props;
 const projects = blok.projects;
+
+console.log(blok)
 ---
 
 <section class="overflow-hidden" {...storyblokEditable(blok)}>
@@ -29,7 +31,7 @@ const projects = blok.projects;
         {blok.title}
       </Text>
       <RollingLink
-        href={blok.linkUrl.story ? `/${blok.linkUrl.story?.full_slug}` : blok.linkUrl.url}
+        href={blok.linkUrl.story ? `/${blok.linkUrl.story?.full_slug}` : blok.linkUrl.url ? blok.linkUrl.url : blok.linkUrl.cached_url}
         initialText={blok.linkInitialText}
       />
     </div>

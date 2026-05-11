@@ -37,6 +37,8 @@ const legalSorted = legal.map((page) => {
     full_slug: rel.full_slug
   };
 });
+
+//TODO style links in footer (add hover)
 ---
 
 <div data-footer-parallax="" class="footer-wrap">
@@ -97,7 +99,7 @@ const legalSorted = legal.map((page) => {
                 <a href={`mailto:${contact.email}`} class="demo-footer__a__contact block">
                   {contact.email}
                 </a>
-                <div>
+                <div class="footer_tel">
                   {contact.tel && (
                     <RichTextRenderer
                       content={contact.tel}
@@ -110,7 +112,7 @@ const legalSorted = legal.map((page) => {
                     />
                   )}
                 </div>
-                <p class="demo-footer__a__contact">{contact.address}</p>
+                <p class="">{contact.address}</p>
               </div>
             ))
         }
@@ -121,6 +123,12 @@ const legalSorted = legal.map((page) => {
 </div>
 
 <style>
+  .footer_tel :global(a) {
+    text-decoration: underline;
+  }
+  .footer_tel :global(a:hover) {
+    color: oklch(0.556 0 0);
+  }
   .footer-wrap {
     position: relative;
     overflow: hidden;
@@ -181,6 +189,14 @@ const legalSorted = legal.map((page) => {
     font-size: 2.75em;
     line-height: 1;
     text-decoration: none;
+  }
+
+  .demo-footer__a__contact {
+    text-decoration: underline;
+  }
+
+  .demo-footer__a__contact:hover {
+    color: oklch(0.556 0 0);
   }
 
   .footer-wrap__dark {
