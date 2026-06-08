@@ -9,6 +9,7 @@ import Layout from "../../layouts/Layout.astro";
 import Wrapper from "../../components/fundations/containers/Wrapper.astro";
 import Text from "../../components/fundations/elements/Text.astro";
 import RollingLink from "../../components/fundations/elements/RollingLink.astro";
+import Share from "../../components/fundations/elements/Share.astro";
 
 // SSG: Generate static paths for all blog articles
 export async function getStaticPaths() {
@@ -131,7 +132,9 @@ const seo = {
       {story.content?.body && <StoryblokComponent blok={story.content} />}
     </div>
 
-    <footer class="article-footer px-8">
+    <Share title={story.content?.title} link={Astro.url} />
+
+    <footer class="article-footer mt-16 px-8">
       <RollingLink href="/blog" initialText="Retour au sommaire" />
     </footer>
   </article>

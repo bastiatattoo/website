@@ -121,6 +121,8 @@ const seo = {
   ogImageAlt: null,
   canonical: Astro.url.pathname
 };
+
+console.log(paginatedData);
 ---
 
 <Layout seo={seo}>
@@ -161,7 +163,7 @@ const seo = {
         </div>
 
         {/* Pagination */}
-        {paginatedData.total > 1 && (
+        {paginatedData.total > 6 && (
           <nav class="pagination" aria-label="Pagination">
             {/* Previous link */}
             {paginatedData.url?.prev ? (
