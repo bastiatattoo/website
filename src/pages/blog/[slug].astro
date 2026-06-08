@@ -64,6 +64,8 @@ if (!story) {
   });
 }
 
+console.log(story);
+
 // SEO
 const seo = {
   title: story.content?.title
@@ -132,7 +134,7 @@ const seo = {
       {story.content?.body && <StoryblokComponent blok={story.content} />}
     </div>
 
-    <Share title={story.content?.title} link={Astro.url} />
+    <Share title={story.content?.title} link={`${import.meta.env.SITE_URL}/${story.full_slug}`} />
 
     <footer class="article-footer mt-16 px-8">
       <RollingLink href="/blog" initialText="Retour au sommaire" />
