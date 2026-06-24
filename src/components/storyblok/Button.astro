@@ -9,11 +9,11 @@ const { blok } = Astro.props;
     href={blok.href?.story?.slug === "home"
       ? ""
       : blok.href?.story?.slug
-        ? blok.href.story.slug
+        ? `/${blok.href.story.slug}`
         : blok.href?.url
-          ? blok.href.url
+          ? `/${blok.href.url}`
           : blok.href?.cached_url
-            ? blok.href.cached_url
+            ? `/${blok.href.cached_url}`
             : "#"}
     initialText={blok.text}
   />

@@ -76,6 +76,7 @@ const seo = {
     story.content?.ogImageAlt || story.content?.featured_image?.alt || story.content?.title || null,
   canonical: story.content?.canonical?.url || null
 };
+console.log(seo);
 ---
 
 <Layout seo={seo}>
