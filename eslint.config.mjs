@@ -21,5 +21,17 @@ export default [
     rules: {
       "astro/no-set-html-directive": "warn",
     },
+    languageOptions: {
+      globals: {
+        process: "readonly",
+        Buffer: "readonly",
+        File: "readonly",
+        Response: "readonly",
+        console: "readonly",
+        fetch: "readonly",
+        URL: "readonly",
+        FormData: "readonly",
+      },
+    },
   },
 ];

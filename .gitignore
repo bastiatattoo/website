@@ -22,6 +22,7 @@ pnpm-debug.log*
 .vscode/
 *.swp
 *.swo
+.kilo
 
 # OS
 .DS_Store

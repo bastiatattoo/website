@@ -49,7 +49,7 @@ export default defineConfig({
       testimonials: "components/storyblok/Testimonials",
       textImage: "components/storyblok/TextImage",
       gallery6: "components/storyblok/Gallery6",
-      contact: "components/storyblok/ContactForminit",
+      contact: "components/storyblok/ContactResend",
       filterGallery: "components/storyblok/FilterGallery",
       blog: "components/storyblok/Blog",
       button: "components/storyblok/Button",
